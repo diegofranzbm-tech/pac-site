@@ -28,6 +28,38 @@
     .period-tabs{background:#11172f;border:1px solid #ffffff0b}.period-tab{color:#a9b5d4}.period-tab.active{background:linear-gradient(120deg,#272b5d,#30204f);color:#e8e8ff;box-shadow:0 0 18px #8171ff20}.metric,.panel{background:linear-gradient(145deg,rgba(19,26,54,.94),rgba(13,18,40,.92));border-color:#ffffff15;box-shadow:0 12px 36px #02040d40,inset 0 1px #ffffff08}.metric-icon{background:#282754;color:#adbeff}.metric-label{color:#bac5e0}.metric-value{color:#f1f2ff}.panel-caption,.note,.metric-note{color:var(--muted)}.panel-title{color:#f2f3ff}.search{background:#0d132a;border-color:#313d5e;color:var(--ink)}.search::placeholder{color:#7382a5}.table-wrap td{border-bottom-color:#ffffff0d}.table-wrap th{border-bottom-color:#343d5f}.badge{background:#133b45;color:#81f0d3}.badge.soon{background:#46351a;color:#ffd892}.course{border-color:#ffffff13;background:#10162d}.course:hover{border-color:#7979cf;background:#151d3c}.course.active{border-color:#747ce5;background:linear-gradient(115deg,#171d42,#21193f)}.course-type,.open-link{color:#a3b0d0}.course-pct{color:#81ebd0}.empty{color:var(--muted)}.empty strong{color:var(--ink)}.week-nav button{background:#141a34;color:#dbe2fa;border-color:#374363}.week-range{color:#e3e8ff}.day-card{background:#0d142b;border-color:#273354}.day-card.today{background:#151e3d;border-color:#7188ed;box-shadow:0 0 16px #7284ec18}.day-name{color:#99a8c9}.day-date{color:#edf1ff}.lesson-chip{border-left-color:#9a8cff;color:#d7def5}.week-empty{background:#10162e;border-color:#344061;color:var(--muted)}.progress-line{background:#252e4e}.progress-line span{background:linear-gradient(90deg,#5edcc3,#9a8cff);box-shadow:0 0 9px #76ddda40}.discipline-row{border-bottom-color:#ffffff12}.discipline-count{color:var(--muted)}.discipline-pct{color:#91e7d3}.note strong{color:#e4eaff}.footer{color:#7d8aa8}.toast{background:#25214f;color:#fff}.analytics-grid .panel,.contact-card{backdrop-filter:blur(12px)}
     .month-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}.month-weekday{text-align:center;color:var(--muted);font-size:10px;font-weight:800;text-transform:uppercase;padding:7px}.month-day{min-height:128px;border:1px solid var(--line);border-radius:10px;padding:9px;background:#0d142b}.month-day.outside{opacity:.38}.month-day-number{font-weight:800;font-size:13px;margin-bottom:7px}.duty-chip{font-size:10px;line-height:1.35;padding:5px 6px;margin-top:5px;border-radius:6px;background:#17334a;color:#b8e7ff}.duty-chip.standby{background:#352c4d;color:#dfd0ff}.month-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--muted);margin-top:13px}.month-legend span{display:flex;align-items:center;gap:6px}.month-legend i{width:9px;height:9px;border-radius:3px;background:#3983a8}.month-legend .standby-key{background:#7963a9}.view-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.view-tab.active{color:#a9c4ff}
     @media(max-width:700px){.month-grid{gap:4px}.month-day{min-height:100px;padding:5px}.month-day-number{font-size:11px}.duty-chip{font-size:9px;padding:4px}.month-weekday{font-size:8px;padding:4px}}
+    /* Matrix theme: green digital rain over a subdued image, with readable panels. */
+    :root{color-scheme:dark;--ink:#d9f7dc;--muted:#8daf91;--paper:#020803;--line:#20542a;--navy:#06220c;--blue:#9cffad;--green:#46f36a;--amber:#d4ff69;--white:#f1fff2}
+    html{min-height:100%;background:#020803}
+    body{background-color:#020803;background-image:linear-gradient(180deg,rgba(0,8,2,.68),rgba(0,8,2,.88)),url("matrix-rain.png");background-size:cover;background-position:center top;background-attachment:fixed;color:var(--ink);font-family:Consolas,"Courier New",monospace}
+    body::before{opacity:.22;background-image:repeating-linear-gradient(0deg,transparent 0 3px,rgba(80,255,110,.07) 4px),linear-gradient(90deg,transparent 49.8%,rgba(44,255,91,.09) 50%,transparent 50.2%);background-size:100% 5px,100% 100%}
+    .topbar{background:rgba(0,8,2,.88);border-bottom-color:#27e84b55;backdrop-filter:blur(12px)}
+    .brandmark{background:#062b0d;color:#64ff7e;box-shadow:0 0 18px #19ff4b40;border:1px solid #38e85b66}
+    .toplink{color:#b5e8bb}.toplink:hover,.toplink.active{color:#66ff83}
+    .eyebrow{color:#65ff80;text-shadow:0 0 12px #30ff5b66}
+    .select,.button,.week-nav button{background:rgba(2,20,6,.94);color:var(--ink);border-color:#286b35}
+    .select option{background:#041208;color:var(--ink)}
+    .button:hover,.week-nav button:hover{border-color:#58ff76;background:#082b10;box-shadow:0 0 14px #21ff4b25}
+    .button.primary{background:linear-gradient(110deg,#075018,#0ba52d);border-color:#39ef59;color:#effff0;box-shadow:0 0 18px #1aff4933}
+    .button.primary:hover{background:linear-gradient(110deg,#0a6920,#12c43a)}
+    .period-tabs{background:rgba(0,14,4,.9);border:1px solid #1a5125}
+    .period-tab{color:#9bcda2}.period-tab.active{background:#0b3513;color:#aaffb5;box-shadow:inset 0 0 0 1px #43dc5c66,0 0 14px #1aff4922}
+    .metric,.panel{background:rgba(1,16,5,.88);border-color:#2a6635;box-shadow:0 12px 36px #000c,inset 0 1px #68ff7512;backdrop-filter:blur(8px)}
+    .metric-icon{background:#0a3513;color:#6dff86}.metric-label{color:#b0d9b5}.metric-value,.panel-title{color:#e5ffe8;text-shadow:0 0 10px #39ff5a20}
+    .search,.day-card,.month-day{background:rgba(2,18,6,.92);border-color:#245b2d;color:var(--ink)}
+    .search::placeholder{color:#779c7c}.table-wrap th{color:#8ebf94;border-bottom-color:#286333}.table-wrap td,.discipline-row{border-bottom-color:#ffffff13}
+    .badge{background:#0c3d17;color:#8eff9f}.badge.soon{background:#38420b;color:#e2ff7a}
+    .course{background:rgba(2,18,6,.88);border-color:#245b2d}.course:hover,.course.active{background:#082911;border-color:#43d85c}
+    .course-type,.open-link{color:#9bc6a0}.course-pct,.table-progress-value,.discipline-pct{color:#69ff83}
+    .week-empty{background:rgba(2,18,6,.8);border-color:#286333;color:var(--muted)}
+    .lesson-chip{border-left-color:#55f574}.day-card.today{background:#0a2a10;border-color:#4bea62;box-shadow:0 0 16px #27f34a20}
+    .progress-line{background:#17371d}.progress-line span{background:linear-gradient(90deg,#10b832,#74ff87);box-shadow:0 0 10px #37ff5b66}
+    .month-day-number{color:#d8ffdc}.duty-chip{background:#0b3a14;color:#baffc2}.duty-chip.standby{background:#17380f;color:#e2ff8b}.month-legend i{background:#21cf47}.month-legend .standby-key{background:#a2d832}
+    .contact-card{background:rgba(1,16,5,.88);border-color:#286333}.contact-disc{color:#a9d3ae}.contact-meta a{color:#83ff9a}
+    .chart-bars{border-bottom-color:#286333}.month-bar-fill{background:linear-gradient(180deg,#a8ff70,#0eb537);box-shadow:0 0 14px #42ff5844}.month-value{color:#baffc2}
+    .footer{color:#7ca982}.toast{background:#073112;color:#eaffec;border:1px solid #3ee35c}
+    :focus-visible{outline:2px solid #6cff83!important;outline-offset:2px}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
   </style>
 </head>
 <body>
