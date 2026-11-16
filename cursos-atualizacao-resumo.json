@@ -1,0 +1,82 @@
+{
+  "cfo25": {
+    "name": "CFO 2025",
+    "status": "ok",
+    "lessons": 2060,
+    "contacts": 65,
+    "classes": [
+      "T1",
+      "T2"
+    ],
+    "first": "2025-07-07",
+    "last": "2027-09-16"
+  },
+  "cfo26": {
+    "name": "CFO 2026",
+    "status": "restricted",
+    "lessons": 0,
+    "contacts": 0,
+    "classes": [],
+    "first": null,
+    "last": null
+  },
+  "cfs26": {
+    "name": "CFS 2026",
+    "status": "ok",
+    "lessons": 362,
+    "contacts": 13,
+    "classes": [
+      "1º Pel",
+      "2º Pel"
+    ],
+    "first": "2026-08-17",
+    "last": "2026-11-06"
+  },
+  "choe": {
+    "name": "CHOE",
+    "status": "ok",
+    "lessons": 669,
+    "contacts": 25,
+    "classes": [
+      "T1"
+    ],
+    "first": "2026-08-03",
+    "last": "2027-04-16"
+  },
+  "cfp26": {
+    "name": "CFP 2026",
+    "status": "ok",
+    "lessons": 3699,
+    "contacts": 32,
+    "classes": [
+      "4º Pel",
+      "5º Pel",
+      "6º Pel",
+      "7º Pel"
+    ],
+    "first": "2026-11-03",
+    "last": "2027-08-10"
+  },
+  "of-temp": {
+    "name": "Oficial Temporário",
+    "status": "ok",
+    "lessons": 174,
+    "contacts": 7,
+    "classes": [
+      "T1"
+    ],
+    "first": "2027-01-05",
+    "last": "2027-02-26"
+  },
+  "sgt-temp": {
+    "name": "SGT Temporário",
+    "status": "ok",
+    "lessons": 172,
+    "contacts": 7,
+    "classes": [
+      "T1"
+    ],
+    "first": "2027-01-05",
+    "last": "2027-02-26"
+  }
+}
