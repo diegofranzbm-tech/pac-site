@@ -1,8 +1,8 @@
-# Radar · Imóveis e Turismo
+# Radar · Imóveis e Produtos
 
 Versão estática do serviço local. Imóveis são uma fotografia da exportação; o serviço Python local continua responsável por suas coletas e agrupamentos. Fotos usam os links públicos dos anunciantes.
 
-Turismo consulta fontes públicas a cada seis horas em novembro, apenas até 30/11/2026. Guarda estado, falhas, trechos e histórico em turismo/data.json. Resumos e notas possuem data de revisão própria. O botão Recarregar apenas lê a última consulta publicada. A rotina não realiza cadastros ou reservas.
+Produtos substitui Turismo. Consulta diariamente os catálogos públicos de colchões queen 158x198 da Probel e da Orthocrin. Mantém observações por dia, SKU, vendedor e condição. O gráfico usa a última leitura de cada semana (segunda a domingo), sem preencher semanas ausentes. Indisponibilidade explícita é uma lacuna, não preço zero. Falhas preservam preços anteriores com aviso. O histórico começa na ativação. Preço de catálogo em BRL sem frete; Pix explícito pode aparecer à parte, sem misturar a condição na curva. Cobertura limitada às buscas listadas; não representa todo o mercado. O botão Recarregar apenas lê a última coleta publicada.
 
 Financiamento consulta a API Olinda do Banco Central diariamente às 12h UTC (9h em Brasília, sujeito à fila do GitHub). A fonte é mensal; consulta e período de referência são exibidos separadamente. Compara sete instituições na modalidade pessoa física, taxas de mercado pós-fixadas em TR (903201). A TR é adicional; os valores não são CET nem propostas. Ordena por taxa anual e mantém ausentes ao final, sem substituir por taxas de outro mês. Falhas preservam a última leitura e exibem aviso. A seleção não é um ranking de porte. Arquivos em financiamento/.
 

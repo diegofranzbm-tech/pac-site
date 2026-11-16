@@ -1,0 +1,53 @@
+[
+  {
+    "productName": "Colchão Queen Espuma D33 PróIntense Probel",
+    "brand": "Probel",
+    "link": "https://www.probel.com.br/colchao-queen-espuma-d33-prointense-probel/p",
+    "Largura": [
+      "158 cm"
+    ],
+    "Comprimento": [
+      "198 cm"
+    ],
+    "items": [
+      {
+        "itemId": "273",
+        "name": "Colchão Queen Espuma D33 PróIntense Probel 24cm Bege/Marrom (158x198x24cm)",
+        "nameComplete": "Colchão Queen Espuma D33 PróIntense Probel 24cm Bege/Marrom (158x198x24cm)",
+        "images": [
+          {
+            "imageId": "156980",
+            "imageLabel": "A62653_0",
+            "imageTag": "<img src=\"~/arquivos/ids/156980-#width#-#height#/A62653-0.jpg?v=639197288264600000\" width=\"#width#\" height=\"#height#\" alt=\"\" id=\"\" />",
+            "imageUrl": "https://taace8.vteximg.com.br/arquivos/ids/156980/A62653-0.jpg?v=639197288264600000",
+            "imageText": "",
+            "imageLastModified": "2026-07-15T16:13:46.4600000Z"
+          }
+        ],
+        "isKit": false,
+        "sellers": [
+          {
+            "sellerId": "1",
+            "sellerName": "Probel Colchões",
+            "commertialOffer": {
+              "Price": 1371.0,
+              "AvailableQuantity": 99999,
+              "IsAvailable": true,
+              "Installments": [
+                {
+                  "Value": 1165.35,
+                  "InterestRate": 0.0,
+                  "TotalValuePlusInterestRate": 1165.35,
+                  "NumberOfInstallments": 1,
+                  "PaymentSystemName": "Pix",
+                  "PaymentSystemGroupName": "instantPaymentPaymentGroup",
+                  "Name": "Pix à vista"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

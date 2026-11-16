@@ -1,0 +1,66 @@
+{
+  "products": [
+    {
+      "title": "Colchão de Molas Superlastic Série 121",
+      "handle": "colchao-molas-superlastic-serie-121",
+      "vendor": "Orthocrin",
+      "images": [
+        {
+          "id": 64317323084140,
+          "created_at": "2026-11-05T08:19:52-03:00",
+          "position": 1,
+          "updated_at": "2026-11-06T07:28:11-03:00",
+          "product_id": 14698113237356,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0696/8957/3670/files/colchao-de-molas-superlastic-serie-121-7377194.jpg?v=1793960891",
+          "width": 1200,
+          "height": 670
+        }
+      ],
+      "variants": [
+        {
+          "id": 51892667548012,
+          "title": "Solteiro Especial (78X188X26)",
+          "price": "1270.00",
+          "available": true
+        },
+        {
+          "id": 51892667580780,
+          "title": "Solteiro Padrão (88X188X26)",
+          "price": "1405.00",
+          "available": true
+        },
+        {
+          "id": 51892667613548,
+          "title": "Solteiro King (96X203X26)",
+          "price": "1585.00",
+          "available": true
+        },
+        {
+          "id": 51892667646316,
+          "title": "Solteiro Plus Viúva (110X200X26)",
+          "price": "1810.00",
+          "available": true
+        },
+        {
+          "id": 51892667679084,
+          "title": "Casal Especial (128X188X26)",
+          "price": "1958.00",
+          "available": true
+        },
+        {
+          "id": 51892667711852,
+          "title": "Casal Padrão (138X188X26)",
+          "price": "2078.00",
+          "available": true
+        },
+        {
+          "id": 51892667744620,
+          "title": "Queen (158X198X26)",
+          "price": "2426.00",
+          "available": true
+        }
+      ]
+    }
+  ]
+}
