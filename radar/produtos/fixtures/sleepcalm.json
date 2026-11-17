@@ -1,0 +1,180 @@
+{
+  "props": {
+    "pageProps": {
+      "product": {
+        "sku": "",
+        "name": "Colchão Original",
+        "id": 11,
+        "category": [
+          "colchões"
+        ],
+        "short_description": "24 cm de altura para suas noites de sono</p>\n",
+        "price": "1199",
+        "regular_price": "",
+        "gallery_image_url": [
+          "https://sleepcalm.com.br/wp-content/uploads/2023/10/Espuma1-1.webp",
+          "https://sleepcalm.com.br/wp-content/uploads/2023/10/Espuma2-1.webp",
+          "https://sleepcalm.com.br/wp-content/uploads/2023/10/Espuma3-1.webp",
+          "https://sleepcalm.com.br/wp-content/uploads/2023/10/Espuma4-1.webp",
+          "https://sleepcalm.com.br/wp-content/uploads/2023/10/Espuma5.webp",
+          "https://sleepcalm.com.br/wp-content/uploads/2023/10/Espuma6.webp"
+        ],
+        "attributes": {
+          "tamanho": [
+            "Solteiro (88x188)",
+            "Solteiro Especial (96x203)",
+            "Casal (138x188)",
+            "Queen (158x198)",
+            "King (193x203)"
+          ],
+          "essencial": [
+            "Espuma Original",
+            "Molas Original"
+          ]
+        },
+        "children": [
+          {
+            "id": 803,
+            "name": "Colchão Original - Solteiro (88x188), Espuma Original",
+            "sku": "COLORIESP088000",
+            "price": "1199",
+            "regular_price": "3000",
+            "attributes": {
+              "tamanho": "Solteiro (88x188)",
+              "essencial": "Espuma Original"
+            },
+            "stock": "instock",
+            "backorder": false,
+            "preparation_time": null
+          },
+          {
+            "id": 14,
+            "name": "Colchão Original - Solteiro Especial (96x203), Espuma Original",
+            "sku": "COLORIESP096000",
+            "price": "1539",
+            "regular_price": "3850",
+            "attributes": {
+              "tamanho": "Solteiro Especial (96x203)",
+              "essencial": "Espuma Original"
+            },
+            "stock": "instock",
+            "backorder": false,
+            "preparation_time": null
+          },
+          {
+            "id": 16,
+            "name": "Colchão Original - Casal (138x188), Espuma Original",
+            "sku": "COLORIESP138000",
+            "price": "1729",
+            "regular_price": "4325",
+            "attributes": {
+              "tamanho": "Casal (138x188)",
+              "essencial": "Espuma Original"
+            },
+            "stock": "instock",
+            "backorder": false,
+            "preparation_time": null
+          },
+          {
+            "id": 18,
+            "name": "Colchão Original - Queen (158x198), Espuma Original",
+            "sku": "COLORIESP158000",
+            "price": "2159",
+            "regular_price": "5400",
+            "attributes": {
+              "tamanho": "Queen (158x198)",
+              "essencial": "Espuma Original"
+            },
+            "stock": "instock",
+            "backorder": false,
+            "preparation_time": null
+          },
+          {
+            "id": 20,
+            "name": "Colchão Original - King (193x203), Espuma Original",
+            "sku": "COLORIESP193000",
+            "price": "2829",
+            "regular_price": "7075",
+            "attributes": {
+              "tamanho": "King (193x203)",
+              "essencial": "Espuma Original"
+            },
+            "stock": "instock",
+            "backorder": false,
+            "preparation_time": null
+          },
+          {
+            "id": 15,
+            "name": "Colchão Original - Solteiro (88x188), Molas Original",
+            "sku": "COLORIMOL088000",
+            "price": "1629",
+            "regular_price": "4075",
+            "attributes": {
+              "tamanho": "Solteiro (88x188)",
+              "essencial": "Molas Original"
+            },
+            "stock": "instock",
+            "backorder": false,
+            "preparation_time": null
+          },
+          {
+            "id": 13,
+            "name": "Colchão Original - Solteiro Especial (96x203), Molas Original",
+            "sku": "COLORIMOL096000",
+            "price": "1909",
+            "regular_price": "4775",
+            "attributes": {
+              "tamanho": "Solteiro Especial (96x203)",
+              "essencial": "Molas Original"
+            },
+            "stock": "instock",
+            "backorder": false,
+            "preparation_time": null
+          },
+          {
+            "id": 17,
+            "name": "Colchão Original - Casal (138x188), Molas Original",
+            "sku": "COLORIMOL138000",
+            "price": "2249",
+            "regular_price": "5625",
+            "attributes": {
+              "tamanho": "Casal (138x188)",
+              "essencial": "Molas Original"
+            },
+            "stock": "instock",
+            "backorder": false,
+            "preparation_time": null
+          },
+          {
+            "id": 19,
+            "name": "Colchão Original - Queen (158x198), Molas Original",
+            "sku": "COLORIMOL158000",
+            "price": "2639",
+            "regular_price": "6600",
+            "attributes": {
+              "tamanho": "Queen (158x198)",
+              "essencial": "Molas Original"
+            },
+            "stock": "instock",
+            "backorder": false,
+            "preparation_time": null
+          },
+          {
+            "id": 23,
+            "name": "Colchão Original - King (193x203), Molas Original",
+            "sku": "COLORIMOL193000",
+            "price": "3349",
+            "regular_price": "8375",
+            "attributes": {
+              "tamanho": "King (193x203)",
+              "essencial": "Molas Original"
+            },
+            "stock": "instock",
+            "backorder": false,
+            "preparation_time": null
+          }
+        ]
+      }
+    }
+  }
+}

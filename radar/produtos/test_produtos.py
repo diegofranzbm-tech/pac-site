@@ -2,13 +2,27 @@ import copy
 import json
 import unittest
 from pathlib import Path
-from monitor import SOURCES, parse_vtex, parse_shopify, merge, weekly_points
+from monitor import SOURCES, parse_vtex, parse_shopify, merge, weekly_points, parse_sleepcalm, construction
 
 FIXTURES=Path(__file__).parent/'fixtures'
 
 class ProductTests(unittest.TestCase):
     def vtex(self):return json.loads((FIXTURES/'vtex.json').read_text())
     def shopify(self):return json.loads((FIXTURES/'shopify.json').read_text())
+
+    def test_sleepcalm_queen_uses_variant_price_and_core(self):
+        data=json.loads((FIXTURES/'sleepcalm.json').read_text())
+        rows=parse_sleepcalm(data,SOURCES[2])
+        self.assertEqual(len(rows),2)
+        self.assertEqual({r['price'] for r in rows},{2159,2639})
+        self.assertEqual({r['type'] for r in rows},{'espuma','molas'})
+        self.assertEqual(len({r['id'] for r in rows}),2)
+        self.assertFalse(any(r['price']==1199 for r in rows))
+
+    def test_type_uses_construction_not_generic_foam_layer(self):
+        self.assertEqual(construction('Colchão de molas ensacadas e espuma D33'),'molas')
+        self.assertEqual(construction('Colchão Espuma D33'),'espuma')
+        self.assertEqual(construction('Colchão Híbrido'),'hibrido')
 
     def test_exact_queen_variant_not_cheapest_single(self):
         rows=parse_shopify(self.shopify(),SOURCES[1])

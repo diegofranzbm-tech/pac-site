@@ -17,7 +17,17 @@ TZ = ZoneInfo('America/Sao_Paulo')
 SOURCES = [
     {'id':'probel','name':'Probel · loja oficial','adapter':'vtex','url':'https://www.probel.com.br/colchao/','endpoint':'https://www.probel.com.br/api/catalog_system/pub/products/search/colchao?ft=queen&_from=0&_to=49','limit':'Até 50 produtos da categoria Colchão na busca queen'},
     {'id':'orthocrin','name':'Orthocrin · loja oficial','adapter':'shopify','url':'https://orthocrin.com.br/collections/tamanho-queen','endpoint':'https://orthocrin.com.br/collections/tamanho-queen/products.json?limit=250','limit':'Até 250 produtos da coleção Queen'},
+    {'id':'sleepcalm','name':'Sleep Calm · loja oficial','adapter':'sleepcalm','url':'https://sleepcalm.com.br/produto/colchao-original','endpoint':'https://sleepcalm.com.br/produto/colchao-original','limit':'Colchão Original: variantes queen 158x198 de espuma e molas, separadas por SKU'},
 ]
+
+TYPE_LABELS={'espuma':'Espuma','molas':'Molas','hibrido':'Híbrido (molas + espuma)','nao-informado':'Tipo não informado'}
+
+def construction(text):
+    text=norm(text)
+    if 'hibrid' in text:return 'hibrido'
+    if re.search(r'mola|pocket|superlastic|miracoil|prolastic',text):return 'molas'
+    if 'espuma' in text:return 'espuma'
+    return 'nao-informado'
 
 def norm(value):
     return ''.join(c for c in unicodedata.normalize('NFD',str(value)) if not unicodedata.combining(c)).lower()
@@ -85,7 +95,11 @@ def fetch(url):
             req=Request(url,headers={'User-Agent':'ProdutosRadar/1.0 (public catalog price monitoring)','Accept':'application/json','Accept-Encoding':'identity'})
             with urlopen(req,timeout=35) as response: raw=response.read(12_000_000)
             if raw.startswith(b'\x1f\x8b'):raw=gzip.decompress(raw)
-            return json.loads(raw)
+            try:return json.loads(raw)
+            except json.JSONDecodeError:
+                match=re.search(r'<script\b[^>]*\bid=["\']__NEXT_DATA__["\'][^>]*>(.*?)</script>',raw.decode('utf-8'),re.S)
+                if not match:raise ValueError('Página sem catálogo estruturado reconhecido')
+                return json.loads(match[1])
         except Exception as error:
             last=error
             if attempt==0:time.sleep(1)
@@ -94,17 +108,35 @@ def fetch(url):
 def collect(source,get=fetch):
     try:
         data=get(source['endpoint'])
-        rows=(parse_vtex if source['adapter']=='vtex' else parse_shopify)(data,source)
+        adapters={'vtex':parse_vtex,'shopify':parse_shopify,'sleepcalm':parse_sleepcalm}
+        rows=adapters[source['adapter']](data,source)
+        for row in rows:
+            row.setdefault('type',construction(row['name']))
+            row['type_label']=TYPE_LABELS[row['type']]
         if not rows:raise ValueError('Nenhum SKU queen 158x198 reconhecido; verificar formato da fonte')
         return rows,None
     except Exception as error:return [],str(error)[:240]
+
+def parse_sleepcalm(data,source):
+    product=data.get('props',{}).get('pageProps',{}).get('product',{})
+    if product.get('id')!=11 or normal_name(product.get('name',''))!='colchao original':raise ValueError('Produto Sleep Calm não corresponde ao Original esperado')
+    rows=[]
+    for child in product.get('children',[]):
+        attrs=child.get('attributes',{});size=attrs.get('tamanho','');core=attrs.get('essencial','')
+        if not re.fullmatch(r'Queen\s*\(158\s*[x×]\s*198\)',size,re.I) or not child.get('sku'):continue
+        price=positive(child.get('price'));available=child.get('stock')=='instock' and price is not None
+        images=product.get('gallery_image_url',[])
+        rows.append(dict(id='sleepcalm:'+child['sku'],source_id=source['id'],store=source['name'],seller='Sleep Calm',sku=child['sku'],name=child['name'],brand='Sleep Calm',size='158 × 198 cm',variant=size+' · '+core,url=source['url'],image=images[0] if images else None,price=price if available else None,pix_price=None,available=available,basis='catalogo-brl',condition='Preço da variante queen no catálogo, sem frete. Desconto de Pix/boleto deve ser confirmado no checkout.',type=construction(core)))
+    return rows
+
+def normal_name(text):return norm(text).strip()
 
 def week_of(day):
     return (day-timedelta(days=day.weekday())).isoformat()
 
 def merge(previous,results,now):
     data=dict(previous)
-    products={p['id']:dict(p) for p in previous.get('products',[])}
+    products={p['id']:dict(p,type=p.get('type',construction(p['name'])),type_label=p.get('type_label',TYPE_LABELS[construction(p['name'])])) for p in previous.get('products',[])}
     states={s['id']:s for s in previous.get('sources',[])}
     day=datetime.fromisoformat(now).astimezone(TZ).date()
     new_states=[]
