@@ -17,7 +17,8 @@
       "listed": true,
       "history": {
         "2026-11-19": 977
-      }
+      },
+      "country": "BR"
     },
     "5f87c528b0f8631878ca": {
       "id": "5f87c528b0f8631878ca",
@@ -36,7 +37,8 @@
       "listed": true,
       "history": {
         "2026-11-19": 1506
-      }
+      },
+      "country": "BR"
     },
     "8bea3022dcd441d328e4": {
       "id": "8bea3022dcd441d328e4",
@@ -55,7 +57,8 @@
       "listed": true,
       "history": {
         "2026-11-19": 3531
-      }
+      },
+      "country": "BR"
     },
     "4c56ea013983f2e3905f": {
       "id": "4c56ea013983f2e3905f",
@@ -169,7 +172,8 @@
       "listed": true,
       "history": {
         "2026-11-19": 573
-      }
+      },
+      "country": "BR"
     },
     "57b0632f2b85bfc4561b": {
       "id": "57b0632f2b85bfc4561b",
@@ -188,7 +192,8 @@
       "listed": true,
       "history": {
         "2026-11-19": 584
-      }
+      },
+      "country": "BR"
     },
     "f864e797d87eb4090801": {
       "id": "f864e797d87eb4090801",
@@ -207,7 +212,8 @@
       "listed": true,
       "history": {
         "2026-11-19": 1380
-      }
+      },
+      "country": "BR"
     },
     "527981b093b3d2d49e08": {
       "id": "527981b093b3d2d49e08",
@@ -226,7 +232,8 @@
       "listed": true,
       "history": {
         "2026-11-19": 1564
-      }
+      },
+      "country": "BR"
     },
     "87e4ce64a198c60e18e3": {
       "id": "87e4ce64a198c60e18e3",
@@ -245,7 +252,8 @@
       "listed": true,
       "history": {
         "2026-11-19": 2555
-      }
+      },
+      "country": "BR"
     },
     "bfed3fcdaef62cbc3666": {
       "id": "bfed3fcdaef62cbc3666",
@@ -264,7 +272,8 @@
       "listed": true,
       "history": {
         "2026-11-19": 897
-      }
+      },
+      "country": "BR"
     },
     "56ee650960c8c0a286b2": {
       "id": "56ee650960c8c0a286b2",
@@ -283,7 +292,8 @@
       "listed": true,
       "history": {
         "2026-11-19": 958
-      }
+      },
+      "country": "BR"
     },
     "6624a32a01743918692e": {
       "id": "6624a32a01743918692e",
@@ -302,6 +312,26 @@
       "listed": true,
       "history": {
         "2026-11-19": 592
+      }
+    },
+    "ca646e0785bfbd0b9ed8": {
+      "id": "ca646e0785bfbd0b9ed8",
+      "source": "cvc-resorts",
+      "name": "Enotel Porto De Galinhas All Inclusive Porto de Galinhas",
+      "destination": "",
+      "start": "2027-02-23",
+      "end": null,
+      "price": 1448,
+      "kind": "night",
+      "nights": null,
+      "origin": "",
+      "all_inclusive": true,
+      "country": "BR",
+      "url": "https://www.cvc.com.br/lp/promocoes/resorts-all-inclusive-cvc",
+      "last_seen": "2026-11-19T15:05:41.830147-03:00",
+      "listed": true,
+      "history": {
+        "2026-11-19": 1448
       }
     }
   },
@@ -328,7 +358,7 @@
       "checked_at": "2026-11-19T14:47:14.947026-03:00",
       "status": "error",
       "error": "HTTP Error 403: Forbidden",
-      "last_success": "2026-11-19T14:46:30.683107-03:00",
+      "last_success": "2026-11-19T15:05:41.830147-03:00",
       "count": 2,
       "name": "CVC · diárias",
       "url": "https://www.cvc.com.br/lp/promocoes/resorts-all-inclusive-cvc"

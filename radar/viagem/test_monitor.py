@@ -42,6 +42,18 @@ class TravelMonitorTests(unittest.TestCase):
         row, = parse_cvc_resorts(RESORTS, TODAY)
         self.assertEqual((row["price"], row["kind"], row["nights"]), (573, "night", None))
 
+    def test_cvc_uses_the_published_domestic_section(self):
+        foreign = RESORTS.replace("El Aram Imirá Beach Resort Natal", "Resort de Punta Cana")
+        domestic, international = parse_cvc_resorts(
+            "<h2>Resorts Nacionais</h2>" + RESORTS + "<h2>Resorts Internacionais</h2>" + foreign, TODAY)
+        self.assertEqual(domestic["country"], "BR")
+        self.assertIsNone(international["country"])
+
+    def test_decolar_classifies_confirmed_domestic_destinations(self):
+        row, = parse_decolar(DECOLAR.replace("Pacotes para Punta Cana", "Pacotes para João Pessoa"), TODAY)
+        self.assertEqual(row["country"], "BR")
+        self.assertIsNone(parse_decolar(DECOLAR, TODAY)[0]["country"])
+
     def test_failed_collection_preserves_previous_observation(self):
         data = {"offers": {}, "sources": {}}
         row, = parse_cvc_packages(CVC, TODAY)

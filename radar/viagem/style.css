@@ -3,10 +3,10 @@
 .hero h1{margin-top:0;color:#fff}
 .hero p{color:#e6f3ee}
 #notice[hidden]{display:none}
-#cards .card{display:flex;flex-direction:column}
-#cards .body{display:flex;flex-direction:column;align-items:flex-start;flex:1}
-#cards .links{margin-top:auto;padding-top:12px}
-#cards .price{font-variant-numeric:tabular-nums}
+.cards .card{display:flex;flex-direction:column}
+.cards .body{display:flex;flex-direction:column;align-items:flex-start;flex:1}
+.cards .links{margin-top:auto;padding-top:12px}
+.cards .price{font-variant-numeric:tabular-nums}
 .history-controls{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr) minmax(100px,auto);gap:12px}
 .history-controls select,.history-controls input{display:block;width:100%;min-width:0}
 .history-stats{margin-top:16px}
@@ -14,3 +14,6 @@
 @media(max-width:650px){.history-controls{grid-template-columns:1fr}}
 #sources{padding-left:1.35rem}
 #sources li+li{margin-top:.75rem}
+.brazil-shortcut{color:#fff;font-weight:700;text-underline-offset:4px}
+.brazil-resorts{border-top:4px solid var(--green);margin-bottom:24px;scroll-margin-top:16px}
+.brazil-resorts>.cards+h3{margin-top:24px}

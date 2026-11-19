@@ -3,6 +3,7 @@ import hashlib
 from html.parser import HTMLParser
 import json
 import re
+import unicodedata
 from datetime import date, datetime, timedelta
 from pathlib import Path
 from urllib.error import URLError
@@ -77,13 +78,24 @@ def tidy(text):
 def amount(value):
     return round(float(value.replace(".", "").replace(",", ".")), 2)
 
-def offer(source, name, destination, start, price, kind, end=None, origin=""):
+def brazilian_destination(destination):
+    normalized = unicodedata.normalize("NFD", destination.casefold())
+    normalized = "".join(c for c in normalized if not unicodedata.combining(c))
+    normalized = re.sub(r"^(?:o|a) ", "", normalized)
+    return normalized in {
+        "belem", "belo horizonte", "brasilia", "curitiba", "florianopolis", "foz do iguacu",
+        "fortaleza", "gramado", "joao pessoa", "maceio", "maragogi", "natal", "porto de galinhas",
+        "porto seguro", "recife", "rio de janeiro", "salvador", "sao paulo",
+    }
+
+def offer(source, name, destination, start, price, kind, end=None, origin="", country=None):
     identity = [source, name.casefold(), destination.casefold(), start.isoformat(), str(end), origin, kind]
     return dict(id=hashlib.sha256("|".join(identity).encode()).hexdigest()[:20], source=source,
                 name=name, destination=destination, start=start.isoformat(),
                 end=end.isoformat() if end else None, price=price, kind=kind,
                 nights=(end - start).days if end else None, origin=origin,
                 all_inclusive=bool(re.search(r"all[ -]inclusive", name, re.I)),
+                country=country or ("BR" if brazilian_destination(destination) else None),
                 url=SOURCES[source][1])
 
 def parse_decolar(html, today):
@@ -118,14 +130,17 @@ def parse_decolar(html, today):
 
 def parse_cvc_resorts(html, today):
     result = []
+    country = None
     for tag, title, details in Page(html).sections():
+        if tag == "h2":
+            country = "BR" if title.casefold() == "resorts nacionais" else None
         checkin = re.search(r"check[ -]?in\s*:\s*(\d{2}/\d{2}/2027)", details, re.I)
         price = re.search(r"diária\s*(?:R\$\s*)?a partir de\s*R\$\s*" + AMOUNT, details, re.I)
         if tag != "h3" or not title.startswith("Resorts ") or not checkin or not price:
             continue
         start = datetime.strptime(checkin[1], "%d/%m/%Y").date()
         if start >= today:
-            item = offer("cvc-resorts", title.removeprefix("Resorts "), "", start, amount(price[1]), "night")
+            item = offer("cvc-resorts", title.removeprefix("Resorts "), "", start, amount(price[1]), "night", country=country)
             item["all_inclusive"] = "all inclusive" in details.lower()
             result.append(item)
     return result

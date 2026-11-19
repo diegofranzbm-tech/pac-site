@@ -15,6 +15,7 @@
       <h1>Resorts em 2027</h1>
       <p>Compare ofertas da Decolar e da CVC no Brasil e no exterior.</p>
       <p class="small">Buscas diárias às 9h, horário de Brasília.</p>
+      <a class="brazil-shortcut" href="#all-inclusive-brasil">Ver all inclusive no Brasil ↓</a>
     </div>
     <button id="reload">↻ Recarregar dados</button>
   </header>
@@ -24,6 +25,14 @@
     <div><span>Última consulta · Brasília</span><strong id="last" class="date">—</strong></div>
   </div>
   <p id="notice" class="notice" role="status" hidden></p>
+  <section class="chart-panel brazil-resorts" id="all-inclusive-brasil" aria-labelledby="brazil-title">
+    <h2 id="brazil-title">Resorts all inclusive no Brasil</h2>
+    <p class="small" id="brazil-count" role="status"></p>
+    <h3>Pacotes com aéreo</h3>
+    <div id="brazil-packages" class="cards"></div>
+    <h3>Diárias de resort</h3>
+    <div id="brazil-nights" class="cards"></div>
+  </section>
   <div class="tools">
     <label>Resort ou destino<input id="query" type="search" placeholder="Punta Cana, Natal…"></label>
     <label>Agência<select id="agency"><option value="">Todas</option><option>Decolar</option><option>CVC</option></select></label>

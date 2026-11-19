@@ -102,8 +102,19 @@
     }));
   }
 
+  function renderBrazil(offers) {
+    const brazil = offers.filter(row => row.country === 'BR' && row.all_inclusive);
+    brazil.sort((a, b) => Number(valid(b)) - Number(valid(a)) || a.price - b.price);
+    find('brazil-count').textContent = brazil.length === 1 ? '1 oferta encontrada' : brazil.length + ' ofertas encontradas';
+    for (const [id, kind] of [['brazil-packages', 'package'], ['brazil-nights', 'night']]) {
+      const rows = brazil.filter(row => row.kind === kind);
+      find(id).replaceChildren(...(rows.length ? rows.map(card) : [text('p', 'Nenhuma oferta nesta categoria.', 'empty')]));
+    }
+  }
+
   function render() {
     const all = Object.values(data.offers).filter(row => !past(row));
+    renderBrazil(all);
     const current = all.filter(row => row.kind === 'package' && valid(row));
     find('total').textContent = current.length;
     find('lowest').textContent = current.length ? money.format(Math.min(...current.map(row => row.price))) : '—';
@@ -142,6 +153,7 @@
       if (!response.ok) throw new Error('dados indisponíveis');
       data = await response.json();
       render();
+      if (location.hash === '#all-inclusive-brasil') find('all-inclusive-brasil').scrollIntoView();
     } catch {
       find('notice').hidden = false;
       find('notice').textContent = 'Os dados do monitor estão indisponíveis.';
