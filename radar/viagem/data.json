@@ -307,32 +307,32 @@
   },
   "sources": {
     "decolar": {
-      "checked_at": "2026-11-19T14:37:47.370156-03:00",
-      "status": "manual",
-      "error": null,
+      "checked_at": "2026-11-19T14:47:14.947026-03:00",
+      "status": "error",
+      "error": "HTTP Error 403: Forbidden",
       "last_success": "2026-11-19T14:46:30.683107-03:00",
       "count": 7,
       "name": "Decolar · pacotes",
       "url": "https://www.decolar.com/ofertas-viagens/pacoteiros"
     },
     "cvc-pacotes": {
-      "checked_at": "2026-11-19T14:37:47.370156-03:00",
-      "status": "manual",
-      "error": null,
+      "checked_at": "2026-11-19T14:47:14.947026-03:00",
+      "status": "error",
+      "error": "HTTP Error 403: Forbidden",
       "last_success": "2026-11-19T14:37:47.370156-03:00",
       "count": 1,
       "name": "CVC · pacotes internacionais",
       "url": "https://www.cvc.com.br/lp/promocoes/viaje-pelo-mundo"
     },
     "cvc-resorts": {
-      "checked_at": "2026-11-19T14:37:47.370156-03:00",
-      "status": "manual",
-      "error": null,
+      "checked_at": "2026-11-19T14:47:14.947026-03:00",
+      "status": "error",
+      "error": "HTTP Error 403: Forbidden",
       "last_success": "2026-11-19T14:46:30.683107-03:00",
       "count": 2,
       "name": "CVC · diárias",
       "url": "https://www.cvc.com.br/lp/promocoes/resorts-all-inclusive-cvc"
     }
   },
-  "last_run": "2026-11-19T14:46:30.683107-03:00"
+  "last_run": "2026-11-19T14:47:14.947026-03:00"
 }
