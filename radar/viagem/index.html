@@ -14,6 +14,7 @@
     <div>
       <h1>Resorts em 2027</h1>
       <p>Compare ofertas da Decolar e da CVC no Brasil e no exterior.</p>
+      <p class="small">Buscas diárias às 9h, horário de Brasília.</p>
     </div>
     <button id="reload">↻ Recarregar dados</button>
   </header>
@@ -34,10 +35,19 @@
   <div id="cards" class="cards"></div>
   <section class="chart-panel" id="history" aria-labelledby="history-title">
     <h2 id="history-title">Histórico de preços</h2>
-    <label>Oferta<select id="offer"></select></label>
+    <div class="history-controls">
+      <label>Pesquisar no histórico<input id="history-search" type="search" placeholder="Resort, agência ou destino"></label>
+      <label>Oferta<select id="offer"></select></label>
+      <label>Frequência<select id="history-period"><option value="day">Diária</option><option value="week">Semanal</option></select></label>
+    </div>
+    <div class="stats history-stats">
+      <div><span>Último preço observado</span><strong id="history-last">—</strong></div>
+      <div><span>Menor preço observado</span><strong id="history-lowest">—</strong></div>
+      <div><span>Variação desde a leitura anterior</span><strong id="history-change">—</strong></div>
+    </div>
     <p id="history-note" class="small"></p>
     <div class="table-wrap"><table>
-      <thead><tr><th>Semana de</th><th>Observado em</th><th>Preço por pessoa</th></tr></thead>
+      <thead><tr><th id="history-period-title">Data da busca</th><th id="history-date-title" hidden>Observado em</th><th>Preço</th></tr></thead>
       <tbody id="history-rows"></tbody>
     </table></div>
   </section>

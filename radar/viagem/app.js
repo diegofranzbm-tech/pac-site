@@ -46,8 +46,8 @@
     const history = text('button', 'Ver histórico', 'secondary');
     history.onclick = () => {
       selected = row.id;
-      find('offer').value = selected;
-      renderHistory();
+      find('history-search').value = '';
+      renderHistoryOptions();
       find('history').scrollIntoView({ behavior: 'smooth' });
     };
     links.append(link(row.url, 'Ver na agência ↗'), history);
@@ -56,20 +56,48 @@
     return node;
   }
 
+  function renderHistoryOptions() {
+    const query = normalize(find('history-search').value.trim());
+    const archived = Object.values(data.offers).filter(row =>
+      normalize([row.name, row.destination, agency(row)].join(' ')).includes(query));
+    archived.sort((a, b) => Number(valid(b) && !past(b)) - Number(valid(a) && !past(a)) ||
+      a.name.localeCompare(b.name, 'pt-BR') || a.start.localeCompare(b.start));
+    if (!archived.some(row => row.id === selected)) selected = archived[0]?.id || '';
+    const label = row => [row.name, agency(row), day(row.start), row.kind === 'package' ? 'Pacote' : 'Diária'].join(' · ');
+    find('offer').replaceChildren(...archived.map(row => new Option(label(row), row.id)));
+    find('offer').value = selected;
+    renderHistory();
+  }
+
   function renderHistory() {
     const row = data.offers[selected];
-    const weeks = new Map();
-    for (const [observed, price] of Object.entries(row?.history || {}).sort(([a], [b]) => a.localeCompare(b))) {
+    const daily = Object.entries(row?.history || {}).sort(([a], [b]) => a.localeCompare(b));
+    const weekly = find('history-period').value === 'week';
+    const buckets = new Map();
+    for (const [observed, price] of daily) {
       const monday = new Date(observed + 'T12:00:00Z');
       monday.setUTCDate(monday.getUTCDate() - (monday.getUTCDay() + 6) % 7);
-      weeks.set(monday.toISOString().slice(0, 10), [observed, price]);
+      buckets.set(weekly ? monday.toISOString().slice(0, 10) : observed, [observed, price]);
     }
-    find('history-note').textContent = weeks.size
-      ? 'Última leitura de cada semana. Semanas sem observações ficam fora da tabela.'
-      : 'Aguardando a primeira leitura desta seleção.';
-    find('history-rows').replaceChildren(...[...weeks].reverse().map(([week, [observed, price]]) => {
+    const latest = daily.at(-1)?.[1];
+    const previous = daily.at(-2)?.[1];
+    const variation = previous > 0 ? (latest - previous) / previous : null;
+    find('history-period-title').textContent = weekly ? 'Semana de' : 'Data da busca';
+    find('history-date-title').hidden = !weekly;
+    find('history-last').textContent = latest === undefined ? '—' : money.format(latest);
+    find('history-lowest').textContent = daily.length ? money.format(Math.min(...daily.map(([, price]) => price))) : '—';
+    find('history-change').textContent = variation === null ? '—' :
+      variation.toLocaleString('pt-BR', { style: 'percent', maximumFractionDigits: 1, signDisplay: 'exceptZero' });
+    const unit = row?.kind === 'night' ? 'Preço por pessoa por diária.' : 'Preço por pessoa pelo pacote.';
+    find('history-note').textContent = daily.length ? unit + ' ' + (weekly
+      ? 'Última leitura de cada semana com coleta.'
+      : (daily.length === 1 ? 'Uma leitura registrada até agora.' : daily.length + ' dias com preços registrados.'))
+      : 'Nenhuma leitura para esta seleção.';
+    find('history-rows').replaceChildren(...[...buckets].reverse().map(([period, [observed, price]]) => {
       const tr = document.createElement('tr');
-      tr.append(text('td', day(week)), text('td', day(observed)), text('td', money.format(price)));
+      tr.append(text('td', day(period)));
+      if (weekly) tr.append(text('td', day(observed)));
+      tr.append(text('td', money.format(price)));
       return tr;
     }));
   }
@@ -91,10 +119,8 @@
       (sort === 'date' ? a.start.localeCompare(b.start) : sort === 'night' ? unit(a) - unit(b) : a.price - b.price));
     find('count').textContent = rows.length === 1 ? '1 oferta' : rows.length + ' ofertas';
     find('cards').replaceChildren(...(rows.length ? rows.map(card) : [text('p', 'Nenhuma oferta nesta seleção.', 'empty')]));
-    if (!rows.some(row => row.id === selected)) selected = rows[0]?.id || '';
-    find('offer').replaceChildren(...rows.map(row => new Option(row.name + ' · ' + agency(row) + ' · ' + day(row.start), row.id)));
-    find('offer').value = selected;
-    renderHistory();
+    if (!selected) selected = rows[0]?.id || '';
+    renderHistoryOptions();
     const sources = Object.values(data.sources);
     const failed = sources.filter(source => source.status === 'error');
     find('notice').hidden = !failed.length;
@@ -103,7 +129,7 @@
     find('sources').replaceChildren(...sources.map(source => {
       const item = document.createElement('li');
       item.append(link(source.url, source.name), text('p',
-        (source.status === 'error' ? 'Falha na consulta' : source.status === 'manual' ? 'Consulta inicial à página pública' : 'Consulta concluída') +
+        (source.status === 'error' ? 'Falha na consulta' : source.status === 'manual' ? 'Leitura da vitrine pública' : 'Consulta concluída') +
         ' · Última leitura válida: ' + when(source.last_success), 'small'));
       return item;
     }));
@@ -124,6 +150,8 @@
     }
   }
   find('reload').onclick = load;
+  find('history-period').onchange = renderHistory;
+  find('history-search').oninput = renderHistoryOptions;
   find('offer').onchange = event => { selected = event.target.value; renderHistory(); };
   for (const id of ['query', 'agency', 'kind', 'sort', 'inclusive']) find(id).addEventListener('input', render);
   load();

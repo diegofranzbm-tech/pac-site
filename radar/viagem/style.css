@@ -7,6 +7,10 @@
 #cards .body{display:flex;flex-direction:column;align-items:flex-start;flex:1}
 #cards .links{margin-top:auto;padding-top:12px}
 #cards .price{font-variant-numeric:tabular-nums}
-#history select{display:block;width:min(100%,40rem)}
+.history-controls{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr) minmax(100px,auto);gap:12px}
+.history-controls select,.history-controls input{display:block;width:100%;min-width:0}
+.history-stats{margin-top:16px}
+.history-stats strong{font-size:clamp(18px,2vw,28px)}
+@media(max-width:650px){.history-controls{grid-template-columns:1fr}}
 #sources{padding-left:1.35rem}
 #sources li+li{margin-top:.75rem}
