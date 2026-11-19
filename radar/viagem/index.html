@@ -15,28 +15,32 @@
       <h1>Resorts em 2027</h1>
       <p>Compare ofertas da Decolar e da CVC no Brasil e no exterior.</p>
       <p class="small">Buscas diárias às 9h, horário de Brasília.</p>
-      <a class="brazil-shortcut" href="#all-inclusive-brasil">Ver all inclusive no Brasil ↓</a>
+      <a class="brazil-shortcut" href="#all-inclusive-brasil">All inclusive no Brasil ↓</a>
+      <a class="brazil-shortcut" href="#morro-de-sao-paulo">Morro de São Paulo ↓</a>
     </div>
     <button id="reload">↻ Recarregar dados</button>
   </header>
   <div class="stats">
-    <div><span>Pacotes na última coleta válida</span><strong id="total">—</strong></div>
-    <div><span>Menor preço por pessoa com aéreo</span><strong id="lowest">—</strong></div>
+    <div><span>Hospedagens na última coleta válida</span><strong id="total">—</strong></div>
+    <div><span>Menor diária all inclusive no Brasil · por pessoa</span><strong id="lowest">—</strong></div>
     <div><span>Última consulta · Brasília</span><strong id="last" class="date">—</strong></div>
   </div>
   <p id="notice" class="notice" role="status" hidden></p>
   <section class="chart-panel brazil-resorts" id="all-inclusive-brasil" aria-labelledby="brazil-title">
     <h2 id="brazil-title">Resorts all inclusive no Brasil</h2>
     <p class="small" id="brazil-count" role="status"></p>
-    <h3>Pacotes com aéreo</h3>
-    <div id="brazil-packages" class="cards"></div>
-    <h3>Diárias de resort</h3>
+    <p class="small">Apenas hospedagem. Valores por pessoa por diária.</p>
     <div id="brazil-nights" class="cards"></div>
+  </section>
+  <section class="chart-panel brazil-resorts" id="morro-de-sao-paulo" aria-labelledby="morro-title">
+    <h2 id="morro-title">Hospedagem em Morro de São Paulo</h2>
+    <p class="small">Valores de referência para uma noite e duas pessoas. Confira as datas e o regime da tarifa.</p>
+    <div id="morro-nights" class="cards"></div>
   </section>
   <div class="tools">
     <label>Resort ou destino<input id="query" type="search" placeholder="Punta Cana, Natal…"></label>
     <label>Agência<select id="agency"><option value="">Todas</option><option>Decolar</option><option>CVC</option></select></label>
-    <label>Oferta<select id="kind"><option value="package">Aéreo + resort</option><option value="night">Diárias de resort</option></select></label>
+    <label>Oferta<select id="kind"><option value="night">Hospedagem</option><option value="package">Aéreo + resort</option></select></label>
     <label>Ordenar<select id="sort"><option value="price">Menor preço por pessoa</option><option value="night">Menor preço por noite</option><option value="date">Data da viagem</option></select></label>
     <label class="check"><input id="inclusive" type="checkbox"> All inclusive</label>
   </div>
@@ -63,7 +67,7 @@
   <details class="coverage" open>
     <summary>Fontes e situação das consultas</summary>
     <ul id="sources"></ul>
-    <p class="small">A Decolar publica vitrines de pacotes com datas fixas. O monitor da CVC acompanha a vitrine internacional de pacotes e as promoções de diárias. Se a CVC publicar um pacote all inclusive sem nomear o resort, o cartão mostra o destino anunciado. Preços e condições dependem da origem, das datas, da ocupação e das taxas exibidas pela agência.</p>
+    <p class="small">A Decolar publica vitrines de pacotes e de hospedagens em Morro de São Paulo. O monitor da CVC acompanha a vitrine internacional de pacotes e as promoções de diárias. Se a CVC publicar um pacote all inclusive sem nomear o resort, o cartão mostra o destino anunciado. Preços e condições dependem da origem, das datas, da ocupação e das taxas exibidas pela agência.</p>
   </details>
 </main>
 </body>

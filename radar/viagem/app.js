@@ -7,7 +7,7 @@
   const day = value => value.split('-').reverse().join('/');
   const when = value => value ? timestamp.format(new Date(value)) : '—';
   const normalize = value => value.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase();
-  const agency = row => row.source === 'decolar' ? 'Decolar' : 'CVC';
+  const agency = row => row.source.startsWith('decolar') ? 'Decolar' : 'CVC';
   const text = (tag, value, className) => {
     const node = document.createElement(tag);
     node.textContent = value;
@@ -30,16 +30,21 @@
   const valid = row => row.listed && Date.now() - new Date(row.last_seen).getTime() < 48 * 3600000;
   const past = row => row.start < new Intl.DateTimeFormat('sv-SE', { timeZone: 'America/Sao_Paulo' }).format(new Date());
 
+  function priceUnit(row) {
+    if (row.kind === 'package') return 'Por pessoa · aéreo + resort';
+    return row.guests === 2 ? 'Uma noite para duas pessoas' : 'Por pessoa por diária · hospedagem';
+  }
+
   function card(row) {
     const node = text('article', '', 'card');
     const body = text('div', '', 'body');
     const details = [row.destination, row.origin ? 'Saída de ' + row.origin : '', row.nights ? row.nights + ' noites' : '',
-      row.all_inclusive ? 'All inclusive' : ''].filter(Boolean);
+      row.all_inclusive ? 'All inclusive' : row.meal_plan].filter(Boolean);
     const dates = day(row.start) + (row.end ? ' a ' + day(row.end) : '');
     body.append(text('div', agency(row), 'store'), text('h3', row.name), text('p', dates, 'small'));
     if (details.length) body.append(text('p', details.join(' · '), 'small'));
     body.append(text('div', money.format(row.price), 'price'),
-      text('p', row.kind === 'package' ? 'Por pessoa · aéreo + resort' : 'Por pessoa por diária · hospedagem', 'small'));
+      text('p', priceUnit(row), 'small'));
     if (row.nights) body.append(text('p', money.format(row.price / row.nights) + ' por pessoa por noite do pacote', 'small'));
     body.append(text('p', (valid(row) ? 'Observado em ' : 'Leitura anterior · ') + when(row.last_seen), 'small'));
     const links = text('div', '', 'links');
@@ -88,7 +93,7 @@
     find('history-lowest').textContent = daily.length ? money.format(Math.min(...daily.map(([, price]) => price))) : '—';
     find('history-change').textContent = variation === null ? '—' :
       variation.toLocaleString('pt-BR', { style: 'percent', maximumFractionDigits: 1, signDisplay: 'exceptZero' });
-    const unit = row?.kind === 'night' ? 'Preço por pessoa por diária.' : 'Preço por pessoa pelo pacote.';
+    const unit = row ? priceUnit(row) + '.' : '';
     find('history-note').textContent = daily.length ? unit + ' ' + (weekly
       ? 'Última leitura de cada semana com coleta.'
       : (daily.length === 1 ? 'Uma leitura registrada até agora.' : daily.length + ' dias com preços registrados.'))
@@ -102,22 +107,23 @@
     }));
   }
 
-  function renderBrazil(offers) {
-    const brazil = offers.filter(row => row.country === 'BR' && row.all_inclusive);
-    brazil.sort((a, b) => Number(valid(b)) - Number(valid(a)) || a.price - b.price);
+  function renderLodging(offers) {
+    const byPrice = (a, b) => Number(valid(b)) - Number(valid(a)) || a.price - b.price;
+    const brazil = offers.filter(row => row.kind === 'night' && row.country === 'BR' && row.all_inclusive);
+    const morro = offers.filter(row => row.kind === 'night' && row.destination === 'Morro de São Paulo');
     find('brazil-count').textContent = brazil.length === 1 ? '1 oferta encontrada' : brazil.length + ' ofertas encontradas';
-    for (const [id, kind] of [['brazil-packages', 'package'], ['brazil-nights', 'night']]) {
-      const rows = brazil.filter(row => row.kind === kind);
-      find(id).replaceChildren(...(rows.length ? rows.map(card) : [text('p', 'Nenhuma oferta nesta categoria.', 'empty')]));
+    for (const [id, rows] of [['brazil-nights', brazil], ['morro-nights', morro]]) {
+      find(id).replaceChildren(...(rows.length ? rows.sort(byPrice).map(card) : [text('p', 'Nenhuma hospedagem encontrada.', 'empty')]));
     }
   }
 
   function render() {
     const all = Object.values(data.offers).filter(row => !past(row));
-    renderBrazil(all);
-    const current = all.filter(row => row.kind === 'package' && valid(row));
+    renderLodging(all);
+    const current = all.filter(row => row.kind === 'night' && valid(row));
+    const resortPrices = current.filter(row => row.country === 'BR' && row.all_inclusive).map(row => row.price / (row.guests || 1));
     find('total').textContent = current.length;
-    find('lowest').textContent = current.length ? money.format(Math.min(...current.map(row => row.price))) : '—';
+    find('lowest').textContent = resortPrices.length ? money.format(Math.min(...resortPrices)) : '—';
     find('last').textContent = when(data.last_run);
     const query = normalize(find('query').value.trim());
     const supplier = find('agency').value;
@@ -125,9 +131,10 @@
     const sort = find('sort').value;
     const rows = all.filter(row => row.kind === kind && (!supplier || agency(row) === supplier) &&
       (!find('inclusive').checked || row.all_inclusive) && normalize(row.name + ' ' + row.destination).includes(query));
-    const unit = row => row.price / (row.nights || 1);
+    const perPerson = row => row.price / (row.guests || 1);
+    const unit = row => perPerson(row) / (row.nights || 1);
     rows.sort((a, b) => Number(valid(b)) - Number(valid(a)) ||
-      (sort === 'date' ? a.start.localeCompare(b.start) : sort === 'night' ? unit(a) - unit(b) : a.price - b.price));
+      (sort === 'date' ? a.start.localeCompare(b.start) : sort === 'night' ? unit(a) - unit(b) : perPerson(a) - perPerson(b)));
     find('count').textContent = rows.length === 1 ? '1 oferta' : rows.length + ' ofertas';
     find('cards').replaceChildren(...(rows.length ? rows.map(card) : [text('p', 'Nenhuma oferta nesta seleção.', 'empty')]));
     if (!selected) selected = rows[0]?.id || '';
@@ -153,7 +160,8 @@
       if (!response.ok) throw new Error('dados indisponíveis');
       data = await response.json();
       render();
-      if (location.hash === '#all-inclusive-brasil') find('all-inclusive-brasil').scrollIntoView();
+      const section = location.hash.slice(1);
+      if (['all-inclusive-brasil', 'morro-de-sao-paulo'].includes(section)) find(section).scrollIntoView();
     } catch {
       find('notice').hidden = false;
       find('notice').textContent = 'Os dados do monitor estão indisponíveis.';

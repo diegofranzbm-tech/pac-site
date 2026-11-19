@@ -13,11 +13,14 @@ from zoneinfo import ZoneInfo
 YEAR = 2027
 ROOT = Path(__file__).resolve().parent
 ZONE = ZoneInfo("America/Sao_Paulo")
+MORRO = "Morro de São Paulo"
+DECOLAR_MORRO = "https://www.decolar.com/hoteis/hl/4678/i1/hoteis-em-morro%2Bde%2Bsao%2Bpaulo"
 DECOLAR = "https://www.decolar.com/ofertas-viagens/pacoteiros"
 CVC_RESORTS = "https://www.cvc.com.br/lp/promocoes/resorts-all-inclusive-cvc"
 CVC_PACKAGES = "https://www.cvc.com.br/lp/promocoes/viaje-pelo-mundo"
 SOURCES = {
     "decolar": ("Decolar · pacotes", DECOLAR),
+    "decolar-morro": ("Decolar · hospedagem em Morro de São Paulo", DECOLAR_MORRO),
     "cvc-pacotes": ("CVC · pacotes internacionais", CVC_PACKAGES),
     "cvc-resorts": ("CVC · diárias", CVC_RESORTS),
 }
@@ -167,6 +170,26 @@ def parse_cvc_packages(html, today):
         result.append(offer("cvc-pacotes", name, route[1], start, amount(price[1]), "package", end, origin=route[2]))
     return result
 
+def morro_offer(name, start, price, meal_plan=None, url=DECOLAR_MORRO):
+    row = offer("decolar-morro", name, MORRO, start, price, "night", country="BR")
+    row.update(guests=2, meal_plan=meal_plan, url=url)
+    return row
+
+def parse_decolar_morro(html, today):
+    result = []
+    for tag, title, details in Page(html).sections():
+        if tag not in {"h3", "h4", "h5"} or not title:
+            continue
+        rate = re.search(r"1 noite,? 2 pessoas a partir de (.*?)data de referência:\s*(\d{1,2})\s+(?:de\s+)?([a-zç]+)\s+(?:de\s+)?2027\b",
+                         details, re.I)
+        if not rate or rate[3][:3].lower() not in MONTHS:
+            continue
+        prices = re.findall(r"R\$\s*" + AMOUNT, rate[1], re.I)
+        start = date(YEAR, MONTHS.index(rate[3][:3].lower()) + 1, int(rate[2]))
+        if prices and start >= today:
+            result.append(morro_offer(title, start, min(map(amount, prices))))
+    return result
+
 def fetch(url):
     request = Request(url, headers={"Accept": "text/html", "User-Agent": "PAC-Radar-Viagem/1.0"})
     with urlopen(request, timeout=25) as response:
@@ -175,6 +198,8 @@ def fetch(url):
 def collect(source, today):
     if source == "decolar":
         return parse_decolar(fetch(DECOLAR), today)
+    if source == "decolar-morro":
+        return parse_decolar_morro(fetch(DECOLAR_MORRO), today)
     if source == "cvc-resorts":
         return parse_cvc_resorts(fetch(CVC_RESORTS), today)
     return parse_cvc_packages(fetch(CVC_PACKAGES), today)

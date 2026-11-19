@@ -1,7 +1,7 @@
 from datetime import date, datetime
 import unittest
 
-from monitor import ZONE, parse_cvc_packages, parse_cvc_resorts, parse_decolar, record
+from monitor import ZONE, parse_cvc_packages, parse_cvc_resorts, parse_decolar, parse_decolar_morro, record
 
 TODAY = date(2026, 11, 19)
 DECOLAR = """
@@ -53,6 +53,17 @@ class TravelMonitorTests(unittest.TestCase):
         row, = parse_decolar(DECOLAR.replace("Pacotes para Punta Cana", "Pacotes para João Pessoa"), TODAY)
         self.assertEqual(row["country"], "BR")
         self.assertIsNone(parse_decolar(DECOLAR, TODAY)[0]["country"])
+
+    def test_morro_uses_the_room_price_for_two_guests_in_2027(self):
+        html = """
+        <h5>Topázio Pousada</h5><p>1 noite, 2 pessoas a partir de R$ 256 R$221</p>
+        <p>Data de referência: 5 março 2027</p>
+        <h5>Outra pousada</h5><p>1 noite, 2 pessoas a partir de R$ 100</p>
+        <p>Data de referência: 5 dezembro 2026</p>
+        """
+        row, = parse_decolar_morro(html, TODAY)
+        self.assertEqual((row["price"], row["guests"], row["start"], row["kind"]), (221, 2, "2027-03-05", "night"))
+        self.assertFalse(row["all_inclusive"])
 
     def test_failed_collection_preserves_previous_observation(self):
         data = {"offers": {}, "sources": {}}

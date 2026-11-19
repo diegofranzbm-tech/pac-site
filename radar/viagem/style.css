@@ -14,6 +14,6 @@
 @media(max-width:650px){.history-controls{grid-template-columns:1fr}}
 #sources{padding-left:1.35rem}
 #sources li+li{margin-top:.75rem}
-.brazil-shortcut{color:#fff;font-weight:700;text-underline-offset:4px}
+.brazil-shortcut{display:inline-block;margin-right:18px;color:#fff;font-weight:700;text-underline-offset:4px}
 .brazil-resorts{border-top:4px solid var(--green);margin-bottom:24px;scroll-margin-top:16px}
 .brazil-resorts>.cards+h3{margin-top:24px}
