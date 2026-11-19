@@ -27,6 +27,10 @@ jobs:
         run: python -m unittest discover -s radar/produtos -p 'test_*.py'
       - name: Testar taxas de financiamento
         run: python -m unittest discover -s radar/financiamento -p 'test_*.py'
+      - name: Testar monitor de Viagem
+        run: python -m unittest discover -s radar/viagem -p 'test_*.py'
+      - name: Consultar resorts para 2027
+        run: python radar/viagem/monitor.py
       - name: Consultar colchões queen diariamente
         if: github.event_name != 'push'
         run: python radar/produtos/monitor.py
@@ -38,9 +42,9 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add radar/produtos/data.json radar/financiamento/data.json
+          git add radar/produtos/data.json radar/financiamento/data.json radar/viagem/data.json
           if ! git diff --cached --quiet; then
-            git commit -m 'Atualizar preços de colchões queen e taxas de financiamento'
+            git commit -m 'Atualizar preços de produtos, viagens e financiamento'
             git push
           fi
       - uses: actions/configure-pages@v5

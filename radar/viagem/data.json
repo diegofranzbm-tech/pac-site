@@ -1,0 +1,224 @@
+{
+  "offers": {
+    "515c5e91bf4a81f90c54": {
+      "id": "515c5e91bf4a81f90c54",
+      "source": "decolar",
+      "name": "Wyndham Gramado Termas Resort & Spa",
+      "destination": "Gramado",
+      "start": "2027-04-12",
+      "end": "2027-04-16",
+      "price": 977,
+      "kind": "package",
+      "nights": 4,
+      "origin": "",
+      "all_inclusive": false,
+      "url": "https://www.decolar.com/ofertas-viagens/pacoteiros",
+      "last_seen": "2026-11-19T14:37:47.370156-03:00",
+      "listed": true,
+      "history": {
+        "2026-11-19": 977
+      }
+    },
+    "5f87c528b0f8631878ca": {
+      "id": "5f87c528b0f8631878ca",
+      "source": "decolar",
+      "name": "Ondas Praia Resort by WAM Experience",
+      "destination": "Porto Seguro",
+      "start": "2027-02-28",
+      "end": "2027-03-04",
+      "price": 1506,
+      "kind": "package",
+      "nights": 4,
+      "origin": "",
+      "all_inclusive": false,
+      "url": "https://www.decolar.com/ofertas-viagens/pacoteiros",
+      "last_seen": "2026-11-19T14:37:47.370156-03:00",
+      "listed": true,
+      "history": {
+        "2026-11-19": 1506
+      }
+    },
+    "8bea3022dcd441d328e4": {
+      "id": "8bea3022dcd441d328e4",
+      "source": "decolar",
+      "name": "Marupiara All Inclusive Resort by Wish",
+      "destination": "Porto de Galinhas",
+      "start": "2027-04-12",
+      "end": "2027-04-16",
+      "price": 3531,
+      "kind": "package",
+      "nights": 4,
+      "origin": "",
+      "all_inclusive": true,
+      "url": "https://www.decolar.com/ofertas-viagens/pacoteiros",
+      "last_seen": "2026-11-19T14:37:47.370156-03:00",
+      "listed": true,
+      "history": {
+        "2026-11-19": 3531
+      }
+    },
+    "4c56ea013983f2e3905f": {
+      "id": "4c56ea013983f2e3905f",
+      "source": "decolar",
+      "name": "Serenade Punta Cana Beach & Spa Resort - All Inclusive",
+      "destination": "Punta Cana",
+      "start": "2027-04-09",
+      "end": "2027-04-14",
+      "price": 3261,
+      "kind": "package",
+      "nights": 5,
+      "origin": "",
+      "all_inclusive": true,
+      "url": "https://www.decolar.com/ofertas-viagens/pacoteiros",
+      "last_seen": "2026-11-19T14:37:47.370156-03:00",
+      "listed": true,
+      "history": {
+        "2026-11-19": 3261
+      }
+    },
+    "9e6f79e5fda9de142dd6": {
+      "id": "9e6f79e5fda9de142dd6",
+      "source": "decolar",
+      "name": "Caribe Deluxe Princess - All Inclusive",
+      "destination": "Punta Cana",
+      "start": "2027-04-07",
+      "end": "2027-04-13",
+      "price": 5101,
+      "kind": "package",
+      "nights": 6,
+      "origin": "",
+      "all_inclusive": true,
+      "url": "https://www.decolar.com/ofertas-viagens/pacoteiros",
+      "last_seen": "2026-11-19T14:37:47.370156-03:00",
+      "listed": true,
+      "history": {
+        "2026-11-19": 5101
+      }
+    },
+    "ce799562e0bc4a43969a": {
+      "id": "ce799562e0bc4a43969a",
+      "source": "decolar",
+      "name": "GR Solaris Cancún and Spa All Inclusive",
+      "destination": "Cancun",
+      "start": "2027-03-02",
+      "end": "2027-03-07",
+      "price": 5791,
+      "kind": "package",
+      "nights": 5,
+      "origin": "",
+      "all_inclusive": true,
+      "url": "https://www.decolar.com/ofertas-viagens/pacoteiros",
+      "last_seen": "2026-11-19T14:37:47.370156-03:00",
+      "listed": true,
+      "history": {
+        "2026-11-19": 5791
+      }
+    },
+    "39bff3a1a5e0b12a0619": {
+      "id": "39bff3a1a5e0b12a0619",
+      "source": "decolar",
+      "name": "The Grand Oasis Cancún All Inclusive",
+      "destination": "Cancun",
+      "start": "2027-04-05",
+      "end": "2027-04-11",
+      "price": 6926,
+      "kind": "package",
+      "nights": 6,
+      "origin": "",
+      "all_inclusive": true,
+      "url": "https://www.decolar.com/ofertas-viagens/pacoteiros",
+      "last_seen": "2026-11-19T14:37:47.370156-03:00",
+      "listed": true,
+      "history": {
+        "2026-11-19": 6926
+      }
+    },
+    "044e9596b0bcea861c11": {
+      "id": "044e9596b0bcea861c11",
+      "source": "cvc-pacotes",
+      "name": "Pacote All Inclusive em Punta Cana",
+      "destination": "Punta Cana",
+      "start": "2027-06-01",
+      "end": "2027-06-08",
+      "price": 5625,
+      "kind": "package",
+      "nights": 7,
+      "origin": "São Paulo",
+      "all_inclusive": true,
+      "url": "https://www.cvc.com.br/lp/promocoes/viaje-pelo-mundo",
+      "last_seen": "2026-11-19T14:37:47.370156-03:00",
+      "listed": true,
+      "history": {
+        "2026-11-19": 5625
+      }
+    },
+    "3edbae50fca90916d3b1": {
+      "id": "3edbae50fca90916d3b1",
+      "source": "cvc-resorts",
+      "name": "El Aram Imirá Beach Resort Natal",
+      "destination": "",
+      "start": "2027-02-21",
+      "end": null,
+      "price": 573,
+      "kind": "night",
+      "nights": null,
+      "origin": "",
+      "all_inclusive": true,
+      "url": "https://www.cvc.com.br/lp/promocoes/resorts-all-inclusive-cvc",
+      "last_seen": "2026-11-19T14:37:47.370156-03:00",
+      "listed": true,
+      "history": {
+        "2026-11-19": 573
+      }
+    },
+    "57b0632f2b85bfc4561b": {
+      "id": "57b0632f2b85bfc4561b",
+      "source": "cvc-resorts",
+      "name": "Nauticomar Resort All Inclusive Porto Seguro",
+      "destination": "",
+      "start": "2027-02-24",
+      "end": null,
+      "price": 584,
+      "kind": "night",
+      "nights": null,
+      "origin": "",
+      "all_inclusive": true,
+      "url": "https://www.cvc.com.br/lp/promocoes/resorts-all-inclusive-cvc",
+      "last_seen": "2026-11-19T14:37:47.370156-03:00",
+      "listed": true,
+      "history": {
+        "2026-11-19": 584
+      }
+    }
+  },
+  "sources": {
+    "decolar": {
+      "checked_at": "2026-11-19T14:37:47.370156-03:00",
+      "status": "manual",
+      "error": null,
+      "last_success": "2026-11-19T14:37:47.370156-03:00",
+      "count": 7,
+      "name": "Decolar · pacotes",
+      "url": "https://www.decolar.com/ofertas-viagens/pacoteiros"
+    },
+    "cvc-pacotes": {
+      "checked_at": "2026-11-19T14:37:47.370156-03:00",
+      "status": "manual",
+      "error": null,
+      "last_success": "2026-11-19T14:37:47.370156-03:00",
+      "count": 1,
+      "name": "CVC · pacotes internacionais",
+      "url": "https://www.cvc.com.br/lp/promocoes/viaje-pelo-mundo"
+    },
+    "cvc-resorts": {
+      "checked_at": "2026-11-19T14:37:47.370156-03:00",
+      "status": "manual",
+      "error": null,
+      "last_success": "2026-11-19T14:37:47.370156-03:00",
+      "count": 2,
+      "name": "CVC · diárias",
+      "url": "https://www.cvc.com.br/lp/promocoes/resorts-all-inclusive-cvc"
+    }
+  },
+  "last_run": "2026-11-19T14:37:47.370156-03:00"
+}
