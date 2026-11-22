@@ -51,3 +51,6 @@ header h1 { margin-bottom: .2em; }
   .market-layout { grid-template-columns: minmax(0, 1fr); }
   .market-ranking { grid-row: 1; }
 }
+#reset-month { margin-bottom: 14px; padding: .55em .8em; background: #253744; color: #acebd0; font: inherit; border: 1px solid #647a8b; border-radius: 8px; cursor: pointer; }
+.physical-prices input { width: 4.5em; }
+.physical-prices input:invalid { border-color: #ffa789; }

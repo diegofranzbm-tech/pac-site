@@ -30,32 +30,88 @@ const physicalStores = [
   { name: "Angeloni", area: "Agronômica", address: "Av. Gov. Irineu Bornhausen, 5288" }
 ];
 const money = cents => currency.format(cents / 100);
-const ranked = physicalStores.map((store, column) => ({
-  ...store, total: physicalItems.reduce((sum, [, , prices]) => sum + prices[column], 0)
-})).sort((a, b) => a.total - b.total);
-const lowestTotal = ranked[0].total;
-const splitTotal = physicalItems.reduce((sum, [, , prices]) => sum + Math.min(...prices), 0);
+const suggestedQuantities = [1, 3, 2, 2, 1, 1, 4, 2, 1, 4, 12, 1, 1, 2, 2, 3, 4, 2, 3, 2];
+const monthKey = "radar-mercado-compra-mensal-v1";
+let quantities = suggestedQuantities.slice();
+try {
+  const saved = JSON.parse(localStorage.getItem(monthKey));
+  if (Array.isArray(saved) && saved.length === physicalItems.length &&
+      saved.every(value => Number.isInteger(value) && value >= 0 && value <= 999)) {
+    quantities = saved;
+  }
+} catch {
+  // A lista continua editável sem armazenamento.
+}
 
-document.querySelector("#physical-basket").innerHTML = `
-  <thead><tr><th scope="col">Produto</th>${physicalStores.map(({ name, area }) =>
+const monthlyTable = document.querySelector("#physical-basket");
+monthlyTable.innerHTML = `
+  <thead><tr><th scope="col">Produto</th><th scope="col">Qtd. no mês</th>${physicalStores.map(({ name, area }) =>
     `<th scope="col">${name}<small>${area}</small></th>`).join("")}</tr></thead>
-  <tbody>${physicalItems.map(([name, unit, prices]) => {
+  <tbody>${physicalItems.map(([name, unit, prices], row) => {
     const lowest = Math.min(...prices);
     return `<tr><th scope="row">${name}<small>${unit}</small></th>
+      <td><input type="number" min="0" max="999" step="1" required inputmode="numeric"
+        aria-label="Quantidade mensal de ${name} por referência de ${unit}" value="${quantities[row]}"></td>
       ${prices.map(price => price === lowest
         ? `<td class="lowest-price"><strong>${money(price)}</strong><small>Menor preço</small></td>`
         : `<td>${money(price)}</td>`).join("")}</tr>`;
   }).join("")}</tbody>
-  <tfoot><tr><th scope="row">Total da cesta</th>${physicalStores.map(({name}) =>
-    `<td>${money(ranked.find(store => store.name === name).total)}</td>`).join("")}</tr></tfoot>`;
+  <tfoot><tr><th scope="row">Total mensal</th><td></td>${physicalStores.map(({ name }, column) =>
+    `<td id="month-total-${column}" aria-label="Total mensal · ${name}"></td>`).join("")}</tr></tfoot>`;
 
-document.querySelector("#physical-ranking").innerHTML = ranked.map(({ name, area, address, total }) => `
-  <li><div class="rank-total"><strong>${name}</strong><b>${money(total)}</b></div>
-  <small>${area} · ${address}</small>
-  <small>${total === lowestTotal ? "Menor total da coleta" : `+${money(total - lowestTotal)} sobre o menor total`}</small></li>`).join("");
-document.querySelector("#split-budget").innerHTML = `
-  <strong>${money(splitTotal)}</strong>
-  <p>Comprando cada item na loja mais barata. Economia de ${money(lowestTotal - splitTotal)} antes do deslocamento.</p>`;
+const monthlyInputs = [...monthlyTable.querySelectorAll("input")];
+const ranking = document.querySelector("#physical-ranking");
+const summary = document.querySelector("#monthly-summary");
+const splitBudget = document.querySelector("#split-budget");
+
+function renderMonthlyBudget() {
+  const valid = monthlyInputs.every(input => input.validity.valid);
+  const count = quantities.filter(quantity => quantity > 0).length;
+  const totals = physicalStores.map((store, column) => ({
+    ...store, total: physicalItems.reduce((sum, [, , prices], row) => sum + prices[column] * quantities[row], 0)
+  }));
+  totals.forEach(({ total }, column) => {
+    document.getElementById(`month-total-${column}`).textContent = valid ? money(total) : "—";
+  });
+  if (!valid || count === 0) {
+    summary.textContent = valid ? "Adicione um produto para calcular o orçamento." : "Informe quantidades inteiras de 0 a 999.";
+    ranking.innerHTML = "";
+    splitBudget.hidden = true;
+    return;
+  }
+
+  const ranked = totals.sort((a, b) => a.total - b.total);
+  const lowestTotal = ranked[0].total;
+  const splitTotal = physicalItems.reduce((sum, [, , prices], row) => sum + Math.min(...prices) * quantities[row], 0);
+  summary.textContent = `${count} de 20 produtos selecionados · menor total primeiro`;
+  ranking.innerHTML = ranked.map(({ name, area, address, total }) => `
+    <li><div class="rank-total"><strong>${name}</strong><b>${money(total)}</b></div>
+    <small>${area} · ${address}</small>
+    <small>${total === lowestTotal ? "Menor orçamento do mês nesta simulação" : `+${money(total - lowestTotal)} sobre o menor total`}</small></li>`).join("");
+  splitBudget.hidden = false;
+  splitBudget.innerHTML = `
+    <strong>${money(splitTotal)}</strong>
+    <p>Comprando cada item na loja mais barata. Economia de ${money(lowestTotal - splitTotal)} antes do deslocamento.</p>`;
+}
+
+function updateMonthlyBudget() {
+  if (monthlyInputs.every(input => input.validity.valid)) {
+    quantities = monthlyInputs.map(input => input.valueAsNumber);
+    try {
+      localStorage.setItem(monthKey, JSON.stringify(quantities));
+    } catch {
+      // A lista continua editável sem armazenamento.
+    }
+  }
+  renderMonthlyBudget();
+}
+
+monthlyTable.addEventListener("input", updateMonthlyBudget);
+document.querySelector("#reset-month").addEventListener("click", () => {
+  monthlyInputs.forEach((input, row) => { input.value = suggestedQuantities[row]; });
+  updateMonthlyBudget();
+});
+renderMonthlyBudget();
 
 const dateParts = new Intl.DateTimeFormat("pt-BR", {
   timeZone: "America/Sao_Paulo", year: "numeric", month: "2-digit", day: "2-digit"
