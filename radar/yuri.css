@@ -1,0 +1,51 @@
+:root {
+  --ink: #38152b;
+  --muted: #70455d;
+  --green: #952557;
+  --line: #eac6d9;
+  --paper: #fff5fa;
+  --pink-soft: #fbe0ef;
+  --pink-pale: #fff0f8;
+  --plum: #42132e;
+  --pink-hero: radial-gradient(ellipse at 92% 112%, #f58cbd 0 10%, #da548f 10.3% 18%, #a33167 18.3% 27%, transparent 27.3%), linear-gradient(115deg, #381127, #73214b);
+}
+
+.radar-brand, .yuri-travel .hero, .yuri-market main > header {
+  background: var(--pink-hero);
+  color: white;
+}
+.radar-brand { padding-block: clamp(18px, 4vw, 34px); }
+.radar-brand .brand {
+  font: 800 clamp(1.4rem, 4vw, 2.65rem)/1.1 system-ui, sans-serif;
+  letter-spacing: -.055em;
+}
+.radar-brand .brand span { color: #ffb6d9; }
+.radar-tabs { flex-wrap: wrap; }
+.radar-tabs a { background: var(--pink-soft); }
+.pill, .pills span, .mortgage-rank { background: var(--pink-soft); }
+#apartmentsView th, #apartmentsView tr:hover td { background: var(--pink-pale); }
+#apartmentsView .infra { color: var(--muted); }
+
+.yuri-market {
+  color-scheme: light;
+  background: var(--paper);
+  color: var(--ink);
+}
+.yuri-market article, .yuri-market .table-wrap, .yuri-market .market-ranking,
+.yuri-market .market-note { background: white; border-color: var(--line); }
+.yuri-market .market-note { border-left-color: var(--green); }
+.yuri-market strong, .yuri-market a, .yuri-market .place,
+.yuri-market .market-ranking li::marker { color: var(--green); }
+.yuri-market header a, .yuri-market header .place { color: #ffd4e9; }
+.yuri-market header nav a { background: var(--plum); }
+.yuri-market small, .yuri-market .market-method { color: var(--muted); }
+.yuri-market th, .yuri-market td, .yuri-market .market-ranking li { border-color: var(--line); }
+.yuri-market thead, .yuri-market tfoot, .yuri-market .physical-prices th:first-child,
+.yuri-market .physical-prices tbody tr:nth-child(even) { background: var(--pink-pale); }
+.yuri-market .lowest-price, .yuri-market #split-budget { background: var(--pink-soft); }
+.yuri-market input, .yuri-market #reset-month { background: white; color: var(--ink); border-color: #bd779b; }
+.yuri-market input:invalid { border-color: #a62238; }
+.yuri-market :focus-visible, .yuri-travel :focus-visible, .radar-tabs a:focus-visible {
+  outline: 3px solid #c52d76;
+  outline-offset: 3px;
+}
