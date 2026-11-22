@@ -4,19 +4,43 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Mercado · Radar Trindade</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=cesta20">
   <script src="app.js" defer></script>
+  <script src="cesta.js" defer></script>
 </head>
 <body>
 <main>
   <header>
     <p class="place">Trindade e arredores · Florianópolis</p>
-    <h1>Mercado</h1>
-    <p>Consulte ofertas e compare o custo de abastecer a casa pela primeira vez.</p>
+    <h1>Cesta básica de 20 produtos</h1>
+    <p>Compare o preço de cada item em cinco lojas físicas de Florianópolis e confira os encartes antes de sair.</p>
     <nav aria-label="Seções do Mercado">
-      <a href="#acougue">Açougue</a><a href="#limpeza">Limpeza</a><a href="#ofertas">Ofertas</a><a href="#cesta">Comparar cesta</a>
+      <a href="#cesta-basica">Ranking da cesta</a><a href="#encartes">Encartes de loja</a><a href="#acougue">Açougue</a><a href="#limpeza">Limpeza</a><a href="#ofertas">Ofertas</a><a href="#cesta">Minha cotação</a>
     </nav>
   </header>
+
+  <section aria-labelledby="cesta-basica">
+    <h2 id="cesta-basica">Quanto custa a mesma cesta?</h2>
+    <p class="market-note"><strong>Referência histórica · 4 e 5 de fevereiro de 2026.</strong> Os valores foram coletados em lojas físicas pelo Procon de Florianópolis. Confira os preços atuais antes da compra.</p>
+    <div class="market-layout">
+      <div class="table-wrap physical-prices" tabindex="0" role="region" aria-label="Preços por produto nas cinco lojas físicas">
+        <table id="physical-basket"></table>
+      </div>
+      <aside class="market-ranking" aria-labelledby="ranking-title">
+        <h3 id="ranking-title">Ranking por loja física</h3>
+        <p>20 produtos · menor total primeiro</p>
+        <ol id="physical-ranking"></ol>
+        <div id="split-budget"></div>
+      </aside>
+    </div>
+    <p class="market-method">O total soma uma unidade de cada referência da tabela pelo menor preço coletado em cada filial. Marcas podem variar. A tabela destaca o menor preço em cada linha. Totais sem custo de deslocamento.</p>
+    <a href="https://informefloripa.com/wp-content/uploads/2026/04/Pesquisa-de-Cesta-Basica-Procon-Floripa.pdf" target="_blank" rel="noopener">Ver levantamento do Procon de Florianópolis (PDF)</a>
+  </section>
+
+  <section aria-labelledby="encartes">
+    <h2 id="encartes">Ofertas para comprar na loja</h2>
+    <div class="cards" id="physical-offers"></div>
+  </section>
 
   <section aria-labelledby="lojas">
     <h2 id="lojas">Lojas para comparar</h2>
@@ -42,7 +66,7 @@
   </section>
 
   <section aria-labelledby="cesta">
-    <h2 id="cesta">Compare a mesma cesta</h2>
+    <h2 id="cesta">Minha cotação de compra</h2>
     <p>Ajuste as quantidades e preencha o preço na unidade indicada. Use zero na quantidade para retirar um item. Os dados ficam neste navegador.</p>
     <p id="tableHint">Deslize a tabela para ver todas as lojas. No frete ou deslocamento, use zero se não houver custo.</p>
     <div class="table-wrap" tabindex="0" role="region" aria-label="Tabela de comparação da cesta" aria-describedby="tableHint">

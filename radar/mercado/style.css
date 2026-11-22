@@ -24,3 +24,30 @@ thead, tfoot { background: #243642; }
 input { max-width: 100%; width: 6em; padding: .45em; border: 1px solid #647a8b; border-radius: 6px; background: #101820; color: inherit; font: inherit; }
 #comparison { margin-top: 1em; }
 :focus-visible { outline: 2px solid #91e6bc; outline-offset: 3px; }
+
+main { max-width: 1400px; }
+header { background: linear-gradient(125deg, #143d35, #192631 72%); }
+header h1 { margin-bottom: .2em; }
+.market-note { border-left: 3px solid #91e6bc; padding: .55em .8em; background: #192631; }
+.market-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(260px, 305px); gap: 16px; align-items: start; }
+.physical-prices table { min-width: 660px; font-variant-numeric: tabular-nums; }
+.physical-prices small, .market-ranking small { margin: .2em 0 0; }
+.physical-prices tbody tr:nth-child(even) { background: #1d2c38; }
+.physical-prices th:first-child { position: sticky; left: 0; background: #243642; }
+.lowest-price { background: #234337; }
+.market-ranking { background: #192631; border: 1px solid #3a4c58; border-radius: 16px; padding: 16px; }
+.market-ranking ol { margin: 0; padding-left: 1.65em; }
+.market-ranking li { padding: .7em 0; border-top: 1px solid #3a4c58; }
+.market-ranking li::marker { color: #91e6bc; font-weight: 700; }
+.rank-total { display: flex; justify-content: space-between; gap: 8px; }
+.rank-total b, .offer-prices strong { white-space: nowrap; }
+#split-budget { padding: 12px; margin-top: 12px; border-radius: 10px; background: #234337; }
+#split-budget > strong { font-size: 1.4rem; }
+#split-budget p { margin: .25em 0 0; }
+.market-method { margin-top: 1em; color: #c1ced8; }
+.offer-prices { padding-left: 1.1em; }
+.offer-prices li { margin: .4em 0; }
+@media (max-width: 960px) {
+  .market-layout { grid-template-columns: minmax(0, 1fr); }
+  .market-ranking { grid-row: 1; }
+}
