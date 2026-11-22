@@ -66,3 +66,7 @@ header h1 { margin-bottom: .2em; }
 .frequent-prices tfoot small { line-height: 1.5; }
 .frequent-prices table { min-width: 790px; }
 .frequent-prices th:first-child { width: 24%; }
+.segment-prices-fort table { min-width: 650px; }
+.segment-prices-fort td { white-space: normal; }
+.segment-prices-fort td > a { white-space: nowrap; }
+.market-ranking ol + h3 { margin-top: 1rem; }

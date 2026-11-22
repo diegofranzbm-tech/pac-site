@@ -75,30 +75,79 @@ function localStoreCoverage(segment) {
     </div>`;
 }
 
-for (const [segment, items] of Object.entries(segmentItems)) {
-  const ranking = catalogStores.map(({name}, column) => ({
+const fortSadia = {
+  until: "2026-11-22", dates: "9 a 22/11/2026",
+  url: "https://brcatalogos.com.br/fort/ofertas-seu-dia-pede-sadia-santa-catarina"
+};
+const fortSegmentOffers = {
+  acougue: [
+    null, null,
+    {cents: 1798, product: "Linguiça toscana Perdigão · 600 g", campaign: fortSadia,
+      note: "Outra marca · R$ 16,98 no Clube Mais"}
+  ],
+  higiene: [
+    null,
+    {cents: Math.round(1790 * 4 / 18), paid: 1790, product: "Duetto folha dupla de 30 m · 18 rolos",
+      campaign: fortWeekend, note: "Equivalente a 4 rolos"},
+    {cents: 429, product: "Sabonete Francis Luxo · 90 g", campaign: branchOffers.limpeza,
+      note: "Outra marca · R$ 3,99 no Clube Mais"},
+    {cents: 2290, product: "Kit TRESemmé · 350 ml + 175 ml", campaign: branchOffers.limpeza,
+      note: "Outra marca · R$ 21,90 no Clube Mais"}
+  ],
+  limpeza: [
+    null,
+    {cents: 349, product: "Água sanitária Ypê · 1 L", campaign: branchOffers.limpeza, note: "Outra marca"},
+    null,
+    {cents: 649, product: "Sabão em pó Girando Sol · 800 g", campaign: branchOffers.limpeza, note: "Outra marca"}
+  ]
+};
+
+const segmentStores = [...catalogStores, {name: "Fort Santo Antônio de Lisboa"}];
+
+function renderSegmentRanking(stores, rows) {
+  const totals = stores.map(({name}, column) => ({
     name,
-    total: items.reduce((sum, [, offers]) => sum + offers[column][0], 0)
+    total: rows.reduce((sum, row) => sum + row.prices[column], 0)
   })).sort((a, b) => a.total - b.total);
-  const lowest = ranking[0].total;
+  const lowest = totals[0].total;
+  return `<ol>${totals.map(({name, total}) => `<li><div class="rank-total"><strong>${name}</strong><b>${money(total)}</b></div>
+    <small>${total === lowest ? "Menor subtotal" : `+${money(total - lowest)} sobre o menor subtotal`}</small></li>`).join("")}</ol>`;
+}
+
+for (const [segment, items] of Object.entries(segmentItems)) {
+  const rows = items.map(([product, offers], index) => {
+    const fort = fortSegmentOffers[segment][index];
+    const active = fort && todayInFlorianopolis <= fort.campaign.until;
+    const prices = offers.map(([cents]) => cents);
+    if (active) prices.push(fort.cents);
+    return {product, offers, fort, active, prices};
+  });
+  const common = rows.filter(({active}) => active);
   document.querySelector(`#${segment}-ranking`).innerHTML = `
-    <div class="table-wrap segment-prices" tabindex="0" role="region" aria-labelledby="${segment}">
+    <div class="table-wrap segment-prices segment-prices-fort" tabindex="0" role="region" aria-labelledby="${segment}">
       <table>
-        <thead><tr><th scope="col">Produto</th>${catalogStores.map(({name}) =>
+        <thead><tr><th scope="col">Produto</th>${segmentStores.map(({name}) =>
           `<th scope="col">${name}</th>`).join("")}</tr></thead>
-        <tbody>${items.map(([product, offers]) => {
-          const best = Math.min(...offers.map(([cents]) => cents));
+        <tbody>${rows.map(({product, offers, fort, active, prices}) => {
+          const best = Math.min(...prices);
+          const fortCell = fort ? `<td class="${active && fort.cents === best ? "lowest-price" : ""}">
+            ${external(money(fort.cents), fort.campaign.url)}
+            <small>${fort.product}${fort.paid ? ` · pacote ${money(fort.paid)}` : ""}</small>
+            <small>${fort.note} · ${fort.campaign.dates}${active ? "" : " · encerrado"}</small>
+          </td>` : '<td><small>Preço sem confirmação</small></td>';
           return `<tr><th scope="row">${product}</th>${offers.map(([cents, name, url]) =>
             `<td class="${cents === best ? "lowest-price" : ""}">
               <a href="${url}" target="_blank" rel="noopener" aria-label="${name} · ${money(cents)}">${money(cents)}</a>
-            </td>`).join("")}</tr>`;
+            </td>`).join("")}${fortCell}</tr>`;
         }).join("")}</tbody>
       </table>
     </div>
     <aside class="market-ranking" aria-label="Classificação por subtotal">
-      <h3>Subtotal de ${items.length} itens</h3>
-      <ol>${ranking.map(({name, total}) => `<li><div class="rank-total"><strong>${name}</strong><b>${money(total)}</b></div>
-        <small>${total === lowest ? "Menor subtotal" : `+${money(total - lowest)} sobre o menor subtotal`}</small></li>`).join("")}</ol>
+      <h3>Fort, Bistek e Angeloni</h3>
+      ${common.length ? `<p>${common.length} de ${items.length} itens em comum. Inclui marcas alternativas na mesma medida.</p>
+        ${renderSegmentRanking(segmentStores, common)}` : "<p>Sem oferta do Fort dentro da validade para estes itens.</p>"}
+      <h3>Seleção completa · Bistek e Angeloni</h3>
+      ${renderSegmentRanking(catalogStores, rows)}
     </aside>
     ${localStoreCoverage(segment)}`;
 }
