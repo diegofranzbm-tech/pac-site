@@ -31,6 +31,8 @@ const physicalStores = [
 ];
 const money = cents => currency.format(cents / 100);
 const suggestedQuantities = [1, 3, 2, 2, 1, 1, 4, 2, 1, 4, 12, 1, 1, 2, 2, 3, 4, 2, 3, 2];
+const itacorubiKey = "radar-mercado-itacorubi-v1";
+const itacorubiOffers = "https://www.instagram.com/superedecasaitacorubi/";
 const monthKey = "radar-mercado-compra-mensal-v1";
 let quantities = suggestedQuantities.slice();
 try {
@@ -43,10 +45,20 @@ try {
   // A lista continua editável sem armazenamento.
 }
 
+let itacorubiPrices = [];
+try {
+  const saved = JSON.parse(localStorage.getItem(itacorubiKey));
+  if (Array.isArray(saved)) {
+    itacorubiPrices = saved.map(value => Number.isFinite(value) && value >= 0 && value <= 9999 ? value : null);
+  }
+} catch {
+  // O orçamento continua disponível sem armazenamento.
+}
+
 const monthlyTable = document.querySelector("#physical-basket");
 monthlyTable.innerHTML = `
   <thead><tr><th scope="col">Produto</th><th scope="col">Qtd. no mês</th>${physicalStores.map(({ name, area }) =>
-    `<th scope="col">${name}<small>${area}</small></th>`).join("")}</tr></thead>
+    `<th scope="col">${name}<small>${area}</small></th>`).join("")}<th scope="col">É de Casa<small>Itacorubi · sua cotação</small></th></tr></thead>
   <tbody>${physicalItems.map(([name, unit, prices], row) => {
     const lowest = Math.min(...prices);
     return `<tr><th scope="row">${name}<small>${unit}</small></th>
@@ -54,12 +66,16 @@ monthlyTable.innerHTML = `
         aria-label="Quantidade mensal de ${name} por referência de ${unit}" value="${quantities[row]}"></td>
       ${prices.map(price => price === lowest
         ? `<td class="lowest-price"><strong>${money(price)}</strong><small>Menor preço</small></td>`
-        : `<td>${money(price)}</td>`).join("")}</tr>`;
+        : `<td>${money(price)}</td>`).join("")}
+      <td><input type="number" class="itacorubi-price" min="0" max="9999" step="0.01" inputmode="decimal"
+        aria-label="Preço no É de Casa para ${name} por referência de ${unit}" value="${itacorubiPrices[row] ?? ""}"></td></tr>`;
   }).join("")}</tbody>
   <tfoot><tr><th scope="row">Total mensal</th><td></td>${physicalStores.map(({ name }, column) =>
-    `<td id="month-total-${column}" aria-label="Total mensal · ${name}"></td>`).join("")}</tr></tfoot>`;
+    `<td id="month-total-${column}" aria-label="Total mensal · ${name}"></td>`).join("")}<td id="itacorubi-total" aria-label="Total mensal · É de Casa"></td></tr></tfoot>`;
 
-const monthlyInputs = [...monthlyTable.querySelectorAll("input")];
+const monthlyInputs = [...monthlyTable.querySelectorAll("input:not(.itacorubi-price)")];
+const itacorubiInputs = [...monthlyTable.querySelectorAll(".itacorubi-price")];
+const itacorubiTotal = document.querySelector("#itacorubi-total");
 const ranking = document.querySelector("#physical-ranking");
 const summary = document.querySelector("#monthly-summary");
 const splitBudget = document.querySelector("#split-budget");
@@ -67,6 +83,11 @@ const splitBudget = document.querySelector("#split-budget");
 function renderMonthlyBudget() {
   const valid = monthlyInputs.every(input => input.validity.valid);
   const count = quantities.filter(quantity => quantity > 0).length;
+  const quoted = itacorubiPrices.slice(0, physicalItems.length)
+    .filter((price, row) => price !== null && quantities[row] > 0).length;
+  itacorubiTotal.textContent = valid && count > 0 && quoted === count
+    ? money(quantities.reduce((sum, quantity, row) => sum + Math.round((itacorubiPrices[row] ?? 0) * 100) * quantity, 0))
+    : `${quoted}/${count} cotados`;
   const totals = physicalStores.map((store, column) => ({
     ...store, total: physicalItems.reduce((sum, [, , prices], row) => sum + prices[column] * quantities[row], 0)
   }));
@@ -106,7 +127,18 @@ function updateMonthlyBudget() {
   renderMonthlyBudget();
 }
 
-monthlyTable.addEventListener("input", updateMonthlyBudget);
+monthlyTable.addEventListener("input", event => {
+  if (event.target.matches(".itacorubi-price")) {
+    itacorubiPrices = itacorubiInputs.map(input =>
+      input.validity.valid && input.value !== "" ? input.valueAsNumber : null);
+    try {
+      localStorage.setItem(itacorubiKey, JSON.stringify(itacorubiPrices));
+    } catch {
+      // A cotação atual continua disponível na página.
+    }
+  }
+  updateMonthlyBudget();
+});
 document.querySelector("#reset-month").addEventListener("click", () => {
   monthlyInputs.forEach((input, row) => { input.value = suggestedQuantities[row]; });
   updateMonthlyBudget();
@@ -120,6 +152,10 @@ const dateValues = Object.fromEntries(dateParts.map(({type, value}) => [type, va
 const todayInFlorianopolis = `${dateValues.year}-${dateValues.month}-${dateValues.day}`;
 const printedOfferStatus = todayInFlorianopolis > "2026-11-22" ? "Encerrada" : "Consulte o estoque";
 document.querySelector("#physical-offers").innerHTML = `
+  <article><h3>É de Casa · Itacorubi</h3>
+    <p>Rod. Admar Gonzaga, 1925. Confira as ofertas da filial e registre o preço da embalagem ou peso da sua lista.</p>
+    ${external("Ver ofertas da filial no Instagram", itacorubiOffers)}
+  </article>
   <article><h3>Angeloni · Trindade</h3>
     <small>19 a 22/11/2026 · ${printedOfferStatus}</small>
     <ul class="offer-prices">

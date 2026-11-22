@@ -6,14 +6,14 @@
   <title>YURI, O TREINADOR QUE TREINA · Mercado</title>
   <link rel="stylesheet" href="style.css?v=compra-mensal">
   <script src="app.js" defer></script>
-  <script src="cesta.js?v=compra-mensal" defer></script>
+  <script src="cesta.js?v=itacorubi" defer></script>
 <link rel="stylesheet" href="../yuri.css?v=1"></head>
 <body class="yuri-market">
 <main>
   <header>
     <p class="place">Trindade e arredores · Florianópolis</p>
     <h1>Compras do mês</h1>
-    <p>Planeje a compra mensal de 20 produtos e compare o orçamento em cinco lojas físicas de Florianópolis.</p>
+    <p>Planeje a compra mensal de 20 produtos e compare o orçamento em lojas físicas de Florianópolis.</p>
     <nav aria-label="Seções do Mercado">
       <a href="#cesta-basica">Ranking da cesta</a><a href="#encartes">Encartes de loja</a><a href="#acougue">Açougue</a><a href="#limpeza">Limpeza</a><a href="#ofertas">Ofertas</a><a href="#cesta">Minha cotação</a>
     </nav>
@@ -23,9 +23,10 @@
     <h2 id="cesta-basica">Orçamento mensal por supermercado</h2>
     <p class="market-note"><strong>Referência histórica · 4 e 5 de fevereiro de 2026.</strong> Os valores foram coletados em lojas físicas pelo Procon de Florianópolis. Confira os preços atuais antes da compra.</p>
     <p id="quantity-help">A lista começa com uma sugestão para dois adultos. Ajuste o número de embalagens ou de quilos de cada item para o seu mês. Use zero para retirar um produto.</p>
+    <p>Para o É de Casa do Itacorubi, informe o preço em reais para a mesma embalagem ou peso indicado. O total usa as mesmas quantidades mensais. O ranking usa exclusivamente as filiais com preços da coleta do Procon.</p>
     <button type="button" id="reset-month">Restaurar quantidades sugeridas</button>
     <div class="market-layout">
-      <div class="table-wrap physical-prices" tabindex="0" role="region" aria-label="Preços por produto nas cinco lojas físicas">
+      <div class="table-wrap physical-prices" tabindex="0" role="region" aria-label="Preços por produto nas lojas físicas">
         <table id="physical-basket"></table>
       </div>
       <aside class="market-ranking" aria-labelledby="ranking-title">
