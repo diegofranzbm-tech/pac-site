@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mercado · Radar Trindade</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+<main>
+  <header>
+    <p class="place">Trindade e arredores · Florianópolis</p>
+    <h1>Mercado</h1>
+    <p>Consulte ofertas e compare o custo de abastecer a casa pela primeira vez.</p>
+    <nav aria-label="Seções do Mercado">
+      <a href="#acougue">Açougue</a><a href="#limpeza">Limpeza</a><a href="#ofertas">Ofertas</a><a href="#cesta">Comparar cesta</a>
+    </nav>
+  </header>
+
+  <section aria-labelledby="lojas">
+    <h2 id="lojas">Lojas para comparar</h2>
+    <div class="cards" id="stores"></div>
+  </section>
+
+  <section aria-labelledby="acougue">
+    <h2 id="acougue">Açougue</h2>
+    <p>Compare cortes semelhantes pelo preço por quilo.</p>
+    <div class="cards" id="meat"></div>
+  </section>
+
+  <section aria-labelledby="limpeza">
+    <h2 id="limpeza">Produtos de limpeza</h2>
+    <p>Compare pelo litro, quilo ou unidade. Para concentrados, confira o rendimento no rótulo.</p>
+    <div class="cards" id="cleaning"></div>
+  </section>
+
+  <section aria-labelledby="ofertas">
+    <h2 id="ofertas">Ofertas de mercearia e itens básicos</h2>
+    <p>Os preços exibidos são uma seleção consultada em <time datetime="2026-11-21">21/11/2026</time>. Confirme validade, CEP, estoque e requisitos de clube, app ou quantidade mínima na fonte.</p>
+    <div class="cards" id="deals"></div>
+  </section>
+
+  <section aria-labelledby="cesta">
+    <h2 id="cesta">Compare a mesma cesta</h2>
+    <p>Ajuste as quantidades e preencha o preço na unidade indicada. Use zero na quantidade para retirar um item. Os dados ficam neste navegador.</p>
+    <p id="tableHint">Deslize a tabela para ver todas as lojas. No frete ou deslocamento, use zero se não houver custo.</p>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="Tabela de comparação da cesta" aria-describedby="tableHint">
+      <table id="basket"></table>
+    </div>
+    <p id="comparison" role="status"></p>
+  </section>
+  <noscript>Ative o JavaScript para consultar as ofertas e comparar a cesta.</noscript>
+</main>
+</body>
+</html>
