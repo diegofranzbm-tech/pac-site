@@ -50,5 +50,7 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: '.'
+      - name: Aguardar disponibilidade do artefato no GitHub Pages
+        run: sleep 15
       - uses: actions/deploy-pages@v4
         id: deployment
