@@ -19,7 +19,7 @@ const frequentItems = [
   ["Cenoura", "kg", [[504, 0.6, "Cenoura 600g Aprox. 4 Unid.", "https://www.bistek.com.br/cenoura-600g-3031462/p"], [499, 1, "Cenoura Kg", "https://super.angeloni.com.br/cenoura-kg-164607/p"]], ""],
 ];
 
-const frequentStores = [...catalogStores, {name: "Fort Santo Antônio de Lisboa"}];
+const frequentStores = [...catalogStores, {name: "Fort Santo Antônio de Lisboa", area: "Loja 810 · ofertas presenciais do encarte"}];
 const fortCleaning = branchOffers.limpeza;
 const fortFrequentOffers = {
   "Sabão em pó para roupas": {
@@ -58,7 +58,7 @@ const frequentRows = frequentItems.map(([label, unit, offers, note]) => {
 
 document.querySelector("#frequent-prices").innerHTML = `
   <thead><tr><th scope="col">Produto</th>
-    ${frequentStores.map(({name}) => `<th scope="col">${name}</th>`).join("")}
+    ${frequentStores.map(({name, area}) => `<th scope="col">${name}<small>${area}</small></th>`).join("")}
   </tr></thead>
   <tbody>${frequentRows.map(({label, unit, offers, note, unitPrices, winners, fort}) => `<tr>
     <th scope="row">${label}${note ? `<small>${note}</small>` : ""}</th>
@@ -66,7 +66,7 @@ document.querySelector("#frequent-prices").innerHTML = `
       if (!offer) return '<td><small>Preço sem confirmação na filial</small></td>';
       const [cents, quantity, name, url] = offer;
       const fortDetails = index === 2
-        ? `<small>Encarte · ${fort.campaign.dates}${todayInFlorianopolis > fort.campaign.until ? " · encerrado" : ""}
+        ? `<small>Válido na loja 810 · ${fort.campaign.dates}${todayInFlorianopolis > fort.campaign.until ? " · encerrado" : ""}
           ${fort.alternative ? `<br>Alternativa · ${fort.alternative}` : ""}</small>`
         : "";
       return `<td class="${winners.includes(index) ? "lowest-price" : ""}">
@@ -80,7 +80,11 @@ document.querySelector("#frequent-prices").innerHTML = `
     <th scope="row">Onde vale mais a pena comprar<small>Por menor preço por medida. Pernil e costela têm preparos ou apresentações diferentes.</small></th>
     ${frequentStores.map(({name}, index) => {
       const cheaper = frequentRows.filter(({winners}) => winners.length === 1 && winners[0] === index);
+      const alternatives = index === 2 ? frequentRows.filter(({fort}) =>
+        fort?.alternative && todayInFlorianopolis <= fort.campaign.until) : [];
       return `<td><strong>${name} · ${cheaper.length} ${cheaper.length === 1 ? "item" : "itens"}</strong>
-        <small>${cheaper.map(({label}) => label).join(", ") || "Sem itens com menor preço exclusivo."}</small></td>`;
+        <small>${cheaper.map(({label}) => label).join(", ") || "Sem itens com menor preço exclusivo."}</small>
+        ${alternatives.length ? `<small><strong>Alternativas no encarte da filial</strong> · ${alternatives.map(({label}) => label).join(", ")}</small>` : ""}
+      </td>`;
     }).join("")}
   </tr></tfoot>`;
