@@ -19,7 +19,7 @@ const frequentItems = [
   ["Cenoura", "kg", [[504, 0.6, "Cenoura 600g Aprox. 4 Unid.", "https://www.bistek.com.br/cenoura-600g-3031462/p"], [499, 1, "Cenoura Kg", "https://super.angeloni.com.br/cenoura-kg-164607/p"]], ""],
 ];
 
-const frequentStores = [...catalogStores, {name: "Fort Santo Antônio de Lisboa", area: "Loja 810 · ofertas presenciais do encarte"}];
+const frequentStores = [...catalogStores, {name: "Fort Santo Antônio de Lisboa", area: "Loja 810 · ofertas presenciais do encarte"}, brasilStore];
 const fortCleaning = branchOffers.limpeza;
 const fortFrequentOffers = {
   "Sabão em pó para roupas": {
@@ -44,36 +44,61 @@ const fortFrequentOffers = {
   }
 };
 
+const brasilFrequentOffers = {
+  "Água mineral com gás, 500 ml": {
+    offer: [119, 0.5, "Água mineral Zuppa com gás · 500 ml", brasilBlack.url],
+    campaign: {...brasilBlack, note: "R$ 1,00 no Clube Brasil · limite de 24 unidades"}
+  },
+  "Sabão em pó para roupas": {
+    offer: [brasilPowder.cents, brasilPowder.quantity, brasilPowder.product, brasilWeek.url],
+    campaign: brasilWeek, alternative: "Outra marca e embalagem"
+  },
+  "Papel higiênico folha dupla, 30 m": {
+    offer: [brasilPaper.cents, 12, brasilPaper.product, brasilWeek.url],
+    campaign: brasilWeek, alternative: "Rolos de 20 m · R$ 4,79 por 100 m"
+  },
+  "Sabonete em barra": {
+    offer: [brasilSoap.cents, 1, brasilSoap.product, brasilBlack.url],
+    campaign: brasilSoap.campaign, alternative: "Outra marca e peso · R$ 3,00 no Clube Brasil"
+  }
+};
+
 const separatePreparations = new Set(["Pernil suíno", "Costela suína"]);
 const frequentRows = frequentItems.map(([label, unit, offers, note]) => {
   const fort = fortFrequentOffers[label];
+  const brasil = brasilFrequentOffers[label];
   const allOffers = [...offers.map(([cents, quantity, name, url]) =>
-    [marketQuote(url, cents).cents, quantity, name, url]), fort?.offer ?? null];
+    [marketQuote(url, cents).cents, quantity, name, url]), fort?.offer ?? null, brasil?.offer ?? null];
   const unitPrices = allOffers.map(offer => offer ? Math.round(offer[0] / offer[1]) : null);
-  const fortComparable = fort && !fort.alternative && todayInFlorianopolis <= fort.campaign.until;
-  const comparable = unitPrices.slice(0, fortComparable ? 3 : 2);
-  const lowest = separatePreparations.has(label) ? null : Math.min(...comparable);
-  const winners = comparable.flatMap((price, index) => price === lowest ? [index] : []);
-  return {label, unit, offers: allOffers, note, unitPrices, winners, fort};
+  const campaigns = [null, null, fort, brasil];
+  const candidates = unitPrices.map((price, index) => {
+    if (index < catalogStores.length) return price;
+    const local = campaigns[index];
+    return local && !local.alternative && isActiveOffer(local) ? price : Infinity;
+  });
+  const lowest = separatePreparations.has(label) ? null : Math.min(...candidates);
+  const winners = candidates.flatMap((price, index) => price === lowest ? [index] : []);
+  return {label, unit, offers: allOffers, note, unitPrices, winners, campaigns};
 });
 
 document.querySelector("#frequent-prices").innerHTML = `
   <thead><tr><th scope="col">Produto</th>
     ${frequentStores.map(({name, area}) => `<th scope="col">${name}<small>${area}</small></th>`).join("")}
   </tr></thead>
-  <tbody>${frequentRows.map(({label, unit, offers, note, unitPrices, winners, fort}) => `<tr>
+  <tbody>${frequentRows.map(({label, unit, offers, note, unitPrices, winners, campaigns}) => `<tr>
     <th scope="row">${label}${note ? `<small>${note}</small>` : ""}</th>
     ${offers.map((offer, index) => {
       if (!offer) return '<td><small>Preço sem confirmação na filial</small></td>';
       const [cents, quantity, name, url] = offer;
-      const fortDetails = index === 2
-        ? `<small>Válido na loja 810 · ${fort.campaign.dates}${todayInFlorianopolis > fort.campaign.until ? " · encerrado" : ""}
-          ${fort.alternative ? `<br>Alternativa · ${fort.alternative}` : ""}</small>`
-        : "";
+      const local = campaigns[index];
+      const localDetails = local ? `<small>${index === 2 ? "Loja 810" : "Rio Tavares"} · ${local.campaign.dates}
+        ${isActiveOffer(local) ? "" : " · encerrado"}
+        ${local.campaign.note ? `<br>${local.campaign.note}` : ""}
+        ${local.alternative ? `<br>Alternativa · ${local.alternative}` : ""}</small>` : "";
       return `<td class="${winners.includes(index) ? "lowest-price" : ""}">
         <strong>${money(unitPrices[index])}/${unit}</strong>
         <small>${external(name, url)} · ${money(cents)}${quantity === 1 && unit === "kg" ? " por 1 kg" : ""}</small>
-        ${fortDetails || `<small>${marketDateLabel(marketQuote(url, cents).date)}</small>`}
+        ${localDetails || `<small>${marketDateLabel(marketQuote(url, cents).date)}</small>`}
       </td>`;
     }).join("")}
   </tr>`).join("")}</tbody>
@@ -81,8 +106,8 @@ document.querySelector("#frequent-prices").innerHTML = `
     <th scope="row">Onde vale mais a pena comprar<small>Por menor preço por medida. Pernil e costela têm preparos ou apresentações diferentes.</small></th>
     ${frequentStores.map(({name}, index) => {
       const cheaper = frequentRows.filter(({winners}) => winners.length === 1 && winners[0] === index);
-      const alternatives = index === 2 ? frequentRows.filter(({fort}) =>
-        fort?.alternative && todayInFlorianopolis <= fort.campaign.until) : [];
+      const alternatives = frequentRows.filter(({campaigns}) =>
+        campaigns[index]?.alternative && isActiveOffer(campaigns[index]));
       return `<td><strong>${name} · ${cheaper.length} ${cheaper.length === 1 ? "item" : "itens"}</strong>
         <small>${cheaper.map(({label}) => label).join(", ") || "Sem itens com menor preço exclusivo."}</small>
         ${alternatives.length ? `<small><strong>Alternativas no encarte da filial</strong> · ${alternatives.map(({label}) => label).join(", ")}</small>` : ""}

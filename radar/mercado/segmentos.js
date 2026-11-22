@@ -102,6 +102,26 @@ const fortSegmentOffers = {
   ]
 };
 
+const brasilSegmentOffers = {
+  acougue: [null, {...brasilChicken, note: "Outra marca e apresentação"}, null],
+  higiene: [
+    null,
+    {...brasilPaper, cents: Math.round(brasilPaper.cents * 120 / brasilPaper.quantity),
+      paid: brasilPaper.cents, note: "Equivalente a 120 m de folha dupla"},
+    {...brasilSoap, cents: Math.round(brasilSoap.cents * 90 / 85),
+      paid: brasilSoap.cents, note: "Equivalente a 90 g · R$ 3,00 por barra de 85 g no Clube Brasil"},
+    null
+  ],
+  limpeza: [
+    null,
+    {cents: 220, paid: 1099, product: "Água sanitária Girando Sol · 5 L", campaign: brasilWeek,
+      note: "Equivalente a 1 L"},
+    null,
+    {...brasilPowder, cents: Math.round(brasilPowder.cents * 0.8 / brasilPowder.quantity),
+      paid: brasilPowder.cents, note: "Equivalente a 800 g · outra marca"}
+  ]
+};
+
 const segmentStores = [...catalogStores, {name: "Fort Santo Antônio de Lisboa"}];
 
 function renderSegmentRanking(stores, rows) {
@@ -121,25 +141,36 @@ for (const [segment, items] of Object.entries(segmentItems)) {
     const active = fort && todayInFlorianopolis <= fort.campaign.until;
     const prices = offers.map(([cents]) => cents);
     if (active) prices.push(fort.cents);
-    return {product, offers, fort, active, prices};
+    return {product, offers, fort, active, prices, brasil: brasilSegmentOffers[segment][index]};
   });
   const common = rows.filter(({active}) => active);
+  const brasilCommon = rows.filter(({brasil}) => isActiveOffer(brasil));
+  const includeFort = brasilCommon.length > 0 && brasilCommon.every(({active}) => active);
+  const brasilRankStores = [...(includeFort ? segmentStores : catalogStores), brasilStore];
+  const brasilRankRows = brasilCommon.map(row => ({
+    prices: [...(includeFort ? row.prices : row.prices.slice(0, catalogStores.length)), row.brasil.cents]
+  }));
   document.querySelector(`#${segment}-ranking`).innerHTML = `
     <div class="table-wrap segment-prices segment-prices-fort" tabindex="0" role="region" aria-labelledby="${segment}">
       <table>
-        <thead><tr><th scope="col">Produto</th>${segmentStores.map(({name}) =>
+        <thead><tr><th scope="col">Produto</th>${[...segmentStores, brasilStore].map(({name}) =>
           `<th scope="col">${name}</th>`).join("")}</tr></thead>
-        <tbody>${rows.map(({product, offers, fort, active, prices}) => {
+        <tbody>${rows.map(({product, offers, fort, active, prices, brasil}) => {
           const best = Math.min(...prices);
           const fortCell = fort ? `<td class="${active && fort.cents === best ? "lowest-price" : ""}">
             ${external(money(fort.cents), fort.campaign.url)}
             <small>${fort.product}${fort.paid ? ` · pacote ${money(fort.paid)}` : ""}</small>
             <small>${fort.note} · ${fort.campaign.dates}${active ? "" : " · encerrado"}</small>
           </td>` : '<td><small>Preço sem confirmação</small></td>';
+          const brasilCell = brasil ? `<td>
+            ${external(money(brasil.cents), brasil.campaign.url)}
+            <small>${brasil.product}${brasil.paid ? ` · pacote ${money(brasil.paid)}` : ""}</small>
+            ${brasilOfferDetails(brasil)}
+          </td>` : '<td><small>Preço sem confirmação</small></td>';
           return `<tr><th scope="row">${product}</th>${offers.map(([cents, name, url]) =>
             `<td class="${cents === best ? "lowest-price" : ""}">
               <a href="${url}" target="_blank" rel="noopener" aria-label="${name} · ${money(cents)}">${money(cents)}</a><small>${marketDateLabel(marketQuote(url, cents).date)}</small>
-            </td>`).join("")}${fortCell}</tr>`;
+            </td>`).join("")}${fortCell}${brasilCell}</tr>`;
         }).join("")}</tbody>
       </table>
     </div>
@@ -147,6 +178,9 @@ for (const [segment, items] of Object.entries(segmentItems)) {
       <h3>Fort, Bistek e Angeloni</h3>
       ${common.length ? `<p>${common.length} de ${items.length} itens em comum. Inclui marcas alternativas na mesma medida.</p>
         ${renderSegmentRanking(segmentStores, common)}` : "<p>Sem oferta do Fort dentro da validade para estes itens.</p>"}
+      <h3>Comparação com Brasil Atacadista</h3>
+      ${brasilCommon.length ? `<p>${brasilCommon.length} de ${items.length} itens em comum, com alternativas na mesma medida.</p>
+        ${renderSegmentRanking(brasilRankStores, brasilRankRows)}` : "<p>Sem oferta do Brasil Atacadista dentro da validade para estes itens.</p>"}
       <h3>Seleção completa · Bistek e Angeloni</h3>
       ${renderSegmentRanking(catalogStores, rows)}
     </aside>

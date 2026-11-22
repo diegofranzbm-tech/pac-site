@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>YURI, O TREINADOR QUE TREINA · Mercado</title>
-  <link rel="stylesheet" href="style.css?v=fort-rankings">
+  <link rel="stylesheet" href="style.css?v=brasil">
   <script src="precos.js" defer></script>
-  <script src="app.js?v=diario8" defer></script>
-  <script src="cesta.js?v=diario8" defer></script>
-  <script src="segmentos.js?v=diario8" defer></script>
+  <script src="app.js?v=brasil" defer></script>
+  <script src="cesta.js?v=brasil" defer></script>
+  <script src="segmentos.js?v=brasil" defer></script>
   <link rel="stylesheet" href="../yuri.css?v=via-lactea">
-  <script src="frequentes.js?v=diario8" defer></script>
+  <script src="frequentes.js?v=brasil" defer></script>
 </head>
 <body class="yuri-market">
 <main>
@@ -43,7 +43,6 @@
   <section aria-labelledby="cesta-basica">
     <h2 id="cesta-basica">Orçamento mensal por supermercado</h2>
     <p class="market-note"><strong>Preços dos catálogos oficiais.</strong> Preços online de Angeloni e Bistek, sujeitos a CEP, estoque e condições no carrinho. Para comprar presencialmente, confira as ofertas da filial abaixo.</p>
-    <p id="quantity-help">A lista começa com uma sugestão para dois adultos. Ajuste o número de embalagens ou de quilos de cada item para o seu mês. Use zero para retirar um produto.</p>
     <button type="button" id="reset-month">Restaurar quantidades sugeridas</button>
     <div class="market-layout">
       <div class="table-wrap physical-prices" tabindex="0" role="region" aria-label="Preços publicados pelos catálogos por produto">
@@ -53,13 +52,14 @@
         <h3 id="ranking-title">Ranking dos itens em comum</h3>
         <p id="monthly-summary" role="status"></p>
         <ol id="physical-ranking"></ol>
+        <div class="brasil-month-ranking" id="brasil-month-total"></div>
         <div id="split-budget"></div>
       </aside>
     </div>
     <p class="market-method">Os 20 itens mantêm as mesmas embalagens e pesos. O traço indica preço sem confirmação para a referência exata. O subtotal usa apenas os itens com preço nos dois catálogos. Marcas podem variar. Os valores excluem frete e deslocamento.</p>
   </section>
 
-  <p class="market-method">Bistek e Angeloni usam os preços datados dos catálogos online. O Fort Santo Antônio de Lisboa usa os encartes presenciais da loja 810. A comparação entre as três lojas soma apenas os itens com oferta do Fort na validade, na medida indicada e sem desconto de clube. Os subtotais excluem frete e deslocamento.</p>
+  <p class="market-method">Bistek e Angeloni usam os preços datados dos catálogos online. O Brasil Atacadista do Rio Tavares usa os encartes presenciais. O Fort Santo Antônio de Lisboa usa os encartes presenciais da loja 810. A comparação entre as três lojas soma apenas os itens com oferta do Fort na validade, na medida indicada e sem desconto de clube. Os subtotais excluem frete e deslocamento.</p>
 
   <details class="market-note comparison-note">
     <summary>Adendo sobre embalagens e produtos semelhantes</summary>

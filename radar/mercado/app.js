@@ -73,3 +73,28 @@ const refreshNote = document.querySelector("#market-refresh");
 if (marketPriceRefresh.checked) {
   refreshNote.textContent = `Consulta de ${marketDateLabel(marketPriceRefresh.checked)}: ${marketPriceRefresh.verified} de ${marketPriceRefresh.total} preços online confirmados. Cada valor indica a data em que foi verificado.`;
 }
+
+const dateParts = new Intl.DateTimeFormat("pt-BR", {
+  timeZone: "America/Sao_Paulo", year: "numeric", month: "2-digit", day: "2-digit"
+}).formatToParts(new Date());
+const dateValues = Object.fromEntries(dateParts.map(({type, value}) => [type, value]));
+const todayInFlorianopolis = `${dateValues.year}-${dateValues.month}-${dateValues.day}`;
+
+const brasilStore = {name: "Brasil Atacadista", area: "Rio Tavares · encarte presencial"};
+const brasilWeek = {
+  until: "2026-11-22", dates: "16 a 22/11/2026",
+  url: "https://www.portafolhetos.com.br/brasil-atacadista/brasil-atacadista-ofertas-da-semana-de-segunda-feira-16-11-2026-483039/"
+};
+const brasilBlack = {
+  until: "2026-11-22", dates: "20 a 22/11/2026",
+  url: "https://www.portafolhetos.com.br/brasil-atacadista/brasil-atacadista-black-friday-de-sexta-feira-20-11-2026-483849/"
+};
+const brasilPowder = {cents: 1999, quantity: 2.4, product: "Lava-roupas em pó Tixan Ypê · 2,4 kg", campaign: brasilWeek};
+const brasilPaper = {cents: 1149, quantity: 240, product: "Plush folha dupla · 12 rolos de 20 m", campaign: brasilWeek};
+const brasilSoap = {cents: 499, quantity: 0.085, product: "Sabonete Protex · 85 g", campaign: brasilBlack,
+  note: "R$ 3,00 no Clube Brasil"};
+const brasilChicken = {cents: 1199, product: "Sobrecoxa Sadia · bandeja de 1 kg", campaign: brasilWeek};
+const isActiveOffer = offer => offer && todayInFlorianopolis <= offer.campaign.until;
+function brasilOfferDetails(offer) {
+  return `<small>${offer.campaign.dates}${isActiveOffer(offer) ? "" : " · encerrado"}${offer.note ? ` · ${offer.note}` : ""}</small>`;
+}

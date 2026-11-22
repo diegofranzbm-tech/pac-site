@@ -45,11 +45,20 @@ try {
   // A lista continua editável sem armazenamento.
 }
 
+const brasilMonthly = {
+  "Arroz parboilizado": {cents: 1799, product: "Arroz Caçarola parboilizado · 5 kg", campaign: brasilWeek},
+  "Café": {cents: 1499, product: "Café Brasil · 500 g", campaign: brasilWeek},
+  "Macarrão espaguete": {cents: 399, product: "Espaguete Renata com ovos · 500 g", campaign: brasilWeek,
+    note: "R$ 3,69 no Clube Brasil"},
+  "Leite em pó": {cents: 1489, product: "Leite em pó integral Piracanjuba · 400 g", campaign: brasilWeek}
+};
+
 const monthlyTable = document.querySelector("#physical-basket");
 monthlyTable.innerHTML = `
   <thead><tr><th scope="col">Produto</th><th scope="col">Qtd. no mês</th>${catalogStores.map(({ name, area }) =>
-    `<th scope="col">${name}<small>${area}</small></th>`).join("")}</tr></thead>
+    `<th scope="col">${name}<small>${area}</small></th>`).join("")}<th scope="col">${brasilStore.name}<small>${brasilStore.area}</small></th></tr></thead>
   <tbody>${physicalItems.map(([name, unit, prices], row) => {
+    const brasil = brasilMonthly[name];
     const found = prices.filter(Boolean);
     const lowest = found.length === catalogStores.length ? Math.min(...found.map(([cents]) => cents)) : null;
     return `<tr><th scope="row">${name}<small>${unit}</small></th>
@@ -61,10 +70,11 @@ monthlyTable.innerHTML = `
         return `<td class="${cents === lowest ? "lowest-price" : ""}">
           ${external(money(cents), url)}<small>${product} · ${marketDateLabel(marketQuote(url, cents).date)}</small></td>`;
       }).join("")}
+      ${brasil ? `<td>${external(money(brasil.cents), brasil.campaign.url)}<small>${brasil.product}</small>${brasilOfferDetails(brasil)}</td>` : "<td>—</td>"}
       </tr>`;
   }).join("")}</tbody>
   <tfoot><tr><th scope="row">Subtotal dos itens em comum</th><td></td>${catalogStores.map(({ name }, column) =>
-    `<td id="month-total-${column}" aria-label="Total mensal · ${name}"></td>`).join("")}</tr></tfoot>`;
+    `<td id="month-total-${column}" aria-label="Total mensal · ${name}"></td>`).join("")}<td>Ver comparação ao lado</td></tr></tfoot>`;
 
 const monthlyInputs = [...monthlyTable.querySelectorAll("input")];
 const ranking = document.querySelector("#physical-ranking");
@@ -88,6 +98,7 @@ function renderMonthlyBudget() {
   if (!valid || comparable.length === 0) {
     summary.textContent = valid ? "Selecione produtos com preço nos dois catálogos." : "Informe quantidades inteiras de 0 a 999.";
     ranking.innerHTML = "";
+    document.querySelector("#brasil-month-total").innerHTML = "";
     splitBudget.hidden = true;
     return;
   }
@@ -100,6 +111,22 @@ function renderMonthlyBudget() {
   ranking.innerHTML = ranked.map(({name, total}) => `
     <li><div class="rank-total"><strong>${name}</strong><b>${money(total)}</b></div>
     <small>${total === lowestTotal ? "Menor subtotal dos itens em comum" : `+${money(total - lowestTotal)} sobre o menor subtotal`}</small></li>`).join("");
+  const brasilRows = comparable.filter(row => isActiveOffer(brasilMonthly[physicalItems[row][0]]));
+  const brasilPanel = document.querySelector("#brasil-month-total");
+  brasilPanel.innerHTML = "";
+  if (brasilRows.length) {
+    const stores = [...catalogStores, brasilStore];
+    const commonTotals = stores.map(({name}, column) => ({
+      name,
+      cents: brasilRows.reduce((sum, row) => {
+        const [label, , offers] = physicalItems[row];
+        return sum + (offers[column]?.[0] ?? brasilMonthly[label].cents) * quantities[row];
+      }, 0)
+    })).sort((a, b) => a.cents - b.cents);
+    brasilPanel.innerHTML = `<h3>Com Brasil Atacadista · ${brasilRows.length} itens em comum</h3>
+      <ol>${commonTotals.map(({name, cents}) =>
+        `<li><div class="rank-total"><strong>${name}</strong><b>${money(cents)}</b></div></li>`).join("")}</ol>`;
+  }
   splitBudget.hidden = false;
   splitBudget.innerHTML = `
     <strong>${money(splitTotal)}</strong>
@@ -126,11 +153,6 @@ document.querySelector("#reset-month").addEventListener("click", () => {
 });
 renderMonthlyBudget();
 
-const dateParts = new Intl.DateTimeFormat("pt-BR", {
-  timeZone: "America/Sao_Paulo", year: "numeric", month: "2-digit", day: "2-digit"
-}).formatToParts(new Date());
-const dateValues = Object.fromEntries(dateParts.map(({type, value}) => [type, value]));
-const todayInFlorianopolis = `${dateValues.year}-${dateValues.month}-${dateValues.day}`;
 const printedOfferStatus = todayInFlorianopolis > "2026-11-22" ? "Encerrada" : "Consulte o estoque";
 document.querySelector("#physical-offers").innerHTML = `
   <article><h3>É de Casa · Itacorubi</h3>

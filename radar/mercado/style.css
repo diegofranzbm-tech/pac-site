@@ -70,3 +70,6 @@ header h1 { margin-bottom: .2em; }
 .segment-prices-fort td { white-space: normal; }
 .segment-prices-fort td > a { white-space: nowrap; }
 .market-ranking ol + h3 { margin-top: 1rem; }
+.frequent-prices table { min-width: 910px; }
+.segment-prices-fort table { min-width: 790px; }
+.brasil-month-ranking:not(:empty) { margin-top: 1rem; }
