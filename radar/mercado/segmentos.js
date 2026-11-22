@@ -29,25 +29,28 @@ const branchOffers = {
     items: [
       "Coração da alcatra ou maminha Friboi · R$ 48,78/kg · limite de 10 kg por cliente",
       "Linguiças congeladas de 600 g e 700 g · 50% na segunda unidade · preço-base não divulgado"
-    ]
+    ],
+    note: "Alcatra e maminha são cortes diferentes dos itens da tabela. Para a linguiça, o desconto exige duas embalagens elegíveis e o encarte informa apenas o percentual. O valor por quilo depende do preço-base na loja."
   },
   higiene: {
     ...fortWeekend,
-    items: ["Papel higiênico Duetto · 18 rolos, folha dupla de 30 m ou tripla de 20 m · R$ 17,90"]
+    items: ["Papel higiênico Duetto · 18 rolos, folha dupla de 30 m ou tripla de 20 m · R$ 17,90 (R$ 0,99 por rolo)"],
+    note: "Compare a versão folha dupla de 30 m com os pacotes de 4 rolos da tabela. A versão tripla de 20 m tem outra metragem e espessura."
   },
   limpeza: {
     until: "2026-11-30", dates: "16 a 30/11/2026",
     url: "https://brcatalogos.com.br/fort/ofertas-lamina-perfumaria-santa-catarina",
     items: [
       "Água sanitária Ypê · 1 L · R$ 3,49",
-      "Lava-roupas em pó Surf · 5,6 kg · R$ 32,90 ou R$ 29,90 no Clube Mais",
-      "Lava-roupas líquido Tixan Ypê · refil de 900 ml · R$ 9,98"
-    ]
+      "Lava-roupas em pó Surf · 5,6 kg · R$ 32,90 (R$ 5,88/kg) ou R$ 29,90 no Clube Mais (R$ 5,34/kg)",
+      "Lava-roupas líquido Tixan Ypê · refil de 900 ml · R$ 9,98 (R$ 11,09/L)"
+    ],
+    note: "A água sanitária Ypê tem o mesmo volume da Qboa e outra marca. O Surf do encarte tem embalagem maior e outra fragrância. Para comparar o refil líquido com o sabão em pó, consulte o rendimento por lavagem."
   }
 };
 
 function localStoreCoverage(segment) {
-  const {until, dates, url, items} = branchOffers[segment];
+  const {until, dates, url, items, note} = branchOffers[segment];
   const status = todayInFlorianopolis > until ? "Encerrado" : "Sujeito a estoque";
   return `
     <div class="branch-coverage">
@@ -55,7 +58,7 @@ function localStoreCoverage(segment) {
         <h3>Fort Atacadista · Santo Antônio de Lisboa</h3>
         <small>Encarte presencial · ${dates} · ${status}</small>
         <ul>${items.map(item => `<li>${item}</li>`).join("")}</ul>
-        <small>Os produtos, embalagens ou condições deste encarte diferem da seleção do ranking.</small>
+        <p class="comparison-note"><strong>Como comparar.</strong> ${note}</p>
         <div class="links">
           ${external("Ver encarte", url)}
           ${external("Consultar loja 810", "https://www.fortatacadista.com.br/3074/televendas")}
