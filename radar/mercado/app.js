@@ -1,13 +1,13 @@
 const stores = [
   {
-    name: "Angeloni", branch: "Trindade", address: "Rua Prof. Simão José Hess, 190",
+    name: "Angeloni", branch: "Trindade (HU)", address: "Rua Prof. Simão José Hess, 190",
     links: [
       ["Supermercado online", "https://super.angeloni.com.br/"],
       ["Ofertas do encarte", "https://super.angeloni.com.br/ofertas-do-encarte"]
     ]
   },
   {
-    name: "Imperatriz", branch: "Trindade",
+    name: "Imperatriz", branch: "Trindade", address: "Rua Lauro Linhares, 2010",
     links: [["Ofertas e comunidade da loja", "https://superimperatriz.com.br/"]]
   },
   {
@@ -19,11 +19,19 @@ const stores = [
     ]
   },
   {
-    name: "Fort", branch: "Rio Tavares", address: "Rod. Dr. Antônio Luiz Moura Gonzaga, 1616",
+    name: "Fort", branch: "Santo Antônio de Lisboa", address: "Rod. José Carlos Daux, 9580",
     links: [
-      ["Encarte oficial · selecione Rio Tavares", "https://www.fortatacadista.com.br/encartes/"],
+      ["Encarte oficial · selecione Santo Antônio de Lisboa", "https://www.fortatacadista.com.br/encartes/"],
       ["Folhetos de Florianópolis", "https://www.portafolhetos.com.br/ofertas/florianopolis/fort-atacadista/"]
     ]
+  },
+  {
+    name: "Angeloni · Santa Mônica", branch: "Santa Mônica", address: "Rua Nirberto Haase, 75",
+    links: [["Ofertas do encarte", "https://super.angeloni.com.br/ofertas-do-encarte"]]
+  },
+  {
+    name: "Imperatriz · Saco dos Limões", branch: "Saco dos Limões", address: "Rua José Brognoli, 10",
+    links: [["Ofertas e comunidade da loja", "https://superimperatriz.com.br/"]]
   }
 ];
 
@@ -36,13 +44,13 @@ const selections = {
   cleaning: [
     ["Água sanitária Ypê Pro · 5 L", "R$ 19,99 · R$ 4,00/L", "Referência online do Angeloni", "https://super.angeloni.com.br/limpeza-e-lavanderia/agua-sanitaria"],
     ["Água sanitária Qboa · 5 L", "R$ 17,97 · R$ 3,59/L", "Referência online do Bistek", stores[2].links[2][1]],
-    ["Folheto de perfumaria e limpeza", "", "Fort · catálogo regional anunciado até 30/11/2026. Confira se inclui Rio Tavares.", stores[3].links[1][1]]
+    ["Folheto de perfumaria e limpeza", "", "Fort · catálogo regional anunciado até 30/11/2026. Confira se inclui Santo Antônio de Lisboa.", stores[3].links[1][1]]
   ],
   deals: [
     ["Penne Monte Romano · 500 g", "R$ 6,99 · R$ 13,98/kg", "Angeloni online · consulte pelo CEP", stores[0].links[0][1]],
     ["Azeite Monte Romano · 500 ml", "R$ 19,90 · R$ 39,80/L", "Angeloni online · consulte pelo CEP", "https://super.angeloni.com.br/super-ofertas"],
     ["Ofertas do Super Clube", "", "Imperatriz Trindade · consulte a comunidade da loja e confira se o desconto exige ativação no app.", stores[1].links[0][1]],
-    ["Black Friday", "", "Fort · catálogo regional anunciado de 20 a 22/11/2026. Confira se inclui Rio Tavares.", stores[3].links[1][1]]
+    ["Black Friday", "", "Fort · catálogo regional anunciado de 20 a 22/11/2026. Confira se inclui Santo Antônio de Lisboa.", stores[3].links[1][1]]
   ]
 };
 
@@ -60,7 +68,7 @@ const storageKey = "radar-mercado-cesta-v1";
 
 document.querySelector("#stores").innerHTML = stores.map(({name, branch, address, links}) => {
   const query = encodeURIComponent(`${name} ${branch} Florianópolis`);
-  return `<article><h3>${name} · ${branch}</h3>
+  return `<article><h3>${name.endsWith(branch) ? name : `${name} · ${branch}`}</h3>
     ${address ? `<p>${address}</p>` : ""}
     <div class="links">${links.map(([label, url]) => external(label, url)).join("")}
     ${external("Ver no mapa", `https://www.google.com/maps/search/?api=1&query=${query}`)}</div></article>`;
