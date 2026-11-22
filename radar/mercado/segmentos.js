@@ -19,6 +19,59 @@ const segmentItems = {
   ],
 };
 
+const fortWeekend = {
+  until: "2026-11-22", dates: "20 a 22/11/2026",
+  url: "https://brcatalogos.com.br/fort/ofertas-semana-f-santa-catarina"
+};
+const branchOffers = {
+  acougue: {
+    ...fortWeekend,
+    items: [
+      "Coração da alcatra ou maminha Friboi · R$ 48,78/kg · limite de 10 kg por cliente",
+      "Linguiças congeladas de 600 g e 700 g · 50% na segunda unidade · preço-base não divulgado"
+    ]
+  },
+  higiene: {
+    ...fortWeekend,
+    items: ["Papel higiênico Duetto · 18 rolos, folha dupla de 30 m ou tripla de 20 m · R$ 17,90"]
+  },
+  limpeza: {
+    until: "2026-11-30", dates: "16 a 30/11/2026",
+    url: "https://brcatalogos.com.br/fort/ofertas-lamina-perfumaria-santa-catarina",
+    items: [
+      "Água sanitária Ypê · 1 L · R$ 3,49",
+      "Lava-roupas em pó Surf · 5,6 kg · R$ 32,90 ou R$ 29,90 no Clube Mais",
+      "Lava-roupas líquido Tixan Ypê · refil de 900 ml · R$ 9,98"
+    ]
+  }
+};
+
+function localStoreCoverage(segment) {
+  const {until, dates, url, items} = branchOffers[segment];
+  const status = todayInFlorianopolis > until ? "Encerrado" : "Sujeito a estoque";
+  return `
+    <div class="branch-coverage">
+      <article>
+        <h3>Fort Atacadista · Santo Antônio de Lisboa</h3>
+        <small>Encarte presencial · ${dates} · ${status}</small>
+        <ul>${items.map(item => `<li>${item}</li>`).join("")}</ul>
+        <small>Os produtos, embalagens ou condições deste encarte diferem da seleção do ranking.</small>
+        <div class="links">
+          ${external("Ver encarte", url)}
+          ${external("Consultar loja 810", "https://www.fortatacadista.com.br/3074/televendas")}
+        </div>
+      </article>
+      <article>
+        <h3>Imperatriz · Trindade</h3>
+        <p>Rua Lauro Linhares, 2010. Preços vigentes dos itens do ranking ainda sem confirmação pública para a filial.</p>
+        <div class="links">
+          ${external("Consultar comunidade de ofertas", "https://linkme.bio/imperatriz")}
+          ${external("Ver loja no site oficial", "https://superimperatriz.com.br/")}
+        </div>
+      </article>
+    </div>`;
+}
+
 for (const [segment, items] of Object.entries(segmentItems)) {
   const ranking = catalogStores.map(({name}, column) => ({
     name,
@@ -43,5 +96,6 @@ for (const [segment, items] of Object.entries(segmentItems)) {
       <h3>Subtotal de ${items.length} itens</h3>
       <ol>${ranking.map(({name, total}) => `<li><div class="rank-total"><strong>${name}</strong><b>${money(total)}</b></div>
         <small>${total === lowest ? "Menor subtotal" : `+${money(total - lowest)} sobre o menor subtotal`}</small></li>`).join("")}</ol>
-    </aside>`;
+    </aside>
+    ${localStoreCoverage(segment)}`;
 }
