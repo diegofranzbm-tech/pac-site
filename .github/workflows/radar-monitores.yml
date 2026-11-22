@@ -5,6 +5,7 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 12 * * *'
+    - cron: '0 11 * * *' # 8h em Brasília
 permissions:
   contents: write
   pages: write
@@ -29,10 +30,14 @@ jobs:
         run: python -m unittest discover -s radar/financiamento -p 'test_*.py'
       - name: Testar monitor de Viagem
         run: python -m unittest discover -s radar/viagem -p 'test_*.py'
+      - name: Consultar preços do Mercado às 8h
+        if: github.event_name == 'workflow_dispatch' || github.event.schedule == '0 11 * * *'
+        run: python radar/mercado/atualizar.py
       - name: Consultar resorts para 2027
+        if: github.event.schedule != '0 11 * * *'
         run: python radar/viagem/monitor.py
       - name: Consultar colchões queen diariamente
-        if: github.event_name != 'push'
+        if: github.event_name != 'push' && github.event.schedule != '0 11 * * *'
         run: python radar/produtos/monitor.py
       - name: Consultar taxas do Banco Central diariamente
         if: github.event_name == 'workflow_dispatch' || github.event.schedule == '0 12 * * *'
@@ -41,9 +46,9 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add radar/produtos/data.json radar/financiamento/data.json radar/viagem/data.json
+          git add radar/produtos/data.json radar/financiamento/data.json radar/viagem/data.json radar/mercado/precos.js
           if ! git diff --cached --quiet; then
-            git commit -m 'Atualizar preços de produtos, viagens e financiamento'
+            git commit -m 'Atualizar dados dos monitores do Radar'
             git push
           fi
       - uses: actions/configure-pages@v5

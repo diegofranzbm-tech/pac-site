@@ -47,7 +47,8 @@ const fortFrequentOffers = {
 const separatePreparations = new Set(["Pernil suíno", "Costela suína"]);
 const frequentRows = frequentItems.map(([label, unit, offers, note]) => {
   const fort = fortFrequentOffers[label];
-  const allOffers = [...offers, fort?.offer ?? null];
+  const allOffers = [...offers.map(([cents, quantity, name, url]) =>
+    [marketQuote(url, cents).cents, quantity, name, url]), fort?.offer ?? null];
   const unitPrices = allOffers.map(offer => offer ? Math.round(offer[0] / offer[1]) : null);
   const fortComparable = fort && !fort.alternative && todayInFlorianopolis <= fort.campaign.until;
   const comparable = unitPrices.slice(0, fortComparable ? 3 : 2);
@@ -72,7 +73,7 @@ document.querySelector("#frequent-prices").innerHTML = `
       return `<td class="${winners.includes(index) ? "lowest-price" : ""}">
         <strong>${money(unitPrices[index])}/${unit}</strong>
         <small>${external(name, url)} · ${money(cents)}${quantity === 1 && unit === "kg" ? " por 1 kg" : ""}</small>
-        ${fortDetails}
+        ${fortDetails || `<small>${marketDateLabel(marketQuote(url, cents).date)}</small>`}
       </td>`;
     }).join("")}
   </tr>`).join("")}</tbody>

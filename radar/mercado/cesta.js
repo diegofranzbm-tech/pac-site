@@ -22,6 +22,10 @@ const physicalItems = [
   ["Creme dental", "90 g", [[586, "Creme Dental Sorriso 90g Branco", "https://www.bistek.com.br/creme-dental-sorriso-90g-branco-691500/p"], [659, "Creme Dental SORRISO Fresh Caixa 90g", "https://super.angeloni.com.br/creme-dental-sorriso-fresh-caixa-90g-5434854/p"]]],
 ];
 
+for (const [, , offers] of physicalItems) {
+  for (const offer of offers.filter(Boolean)) offer[0] = marketQuote(offer[2], offer[0]).cents;
+}
+
 const catalogStores = [
   { name: "Bistek", area: "Catálogo online" },
   { name: "Angeloni", area: "Catálogo online" }
@@ -55,7 +59,7 @@ monthlyTable.innerHTML = `
         if (!offer) return '<td>—</td>';
         const [cents, product, url] = offer;
         return `<td class="${cents === lowest ? "lowest-price" : ""}">
-          ${external(money(cents), url)}<small>${product}</small></td>`;
+          ${external(money(cents), url)}<small>${product} · ${marketDateLabel(marketQuote(url, cents).date)}</small></td>`;
       }).join("")}
       </tr>`;
   }).join("")}</tbody>

@@ -115,7 +115,8 @@ function renderSegmentRanking(stores, rows) {
 }
 
 for (const [segment, items] of Object.entries(segmentItems)) {
-  const rows = items.map(([product, offers], index) => {
+  const rows = items.map(([product, originalOffers], index) => {
+    const offers = originalOffers.map(([cents, name, url]) => [marketQuote(url, cents).cents, name, url]);
     const fort = fortSegmentOffers[segment][index];
     const active = fort && todayInFlorianopolis <= fort.campaign.until;
     const prices = offers.map(([cents]) => cents);
@@ -137,7 +138,7 @@ for (const [segment, items] of Object.entries(segmentItems)) {
           </td>` : '<td><small>Preço sem confirmação</small></td>';
           return `<tr><th scope="row">${product}</th>${offers.map(([cents, name, url]) =>
             `<td class="${cents === best ? "lowest-price" : ""}">
-              <a href="${url}" target="_blank" rel="noopener" aria-label="${name} · ${money(cents)}">${money(cents)}</a>
+              <a href="${url}" target="_blank" rel="noopener" aria-label="${name} · ${money(cents)}">${money(cents)}</a><small>${marketDateLabel(marketQuote(url, cents).date)}</small>
             </td>`).join("")}${fortCell}</tr>`;
         }).join("")}</tbody>
       </table>

@@ -61,3 +61,15 @@ for (const [section, offers] of Object.entries(selections)) {
     <small>${note}</small>${external("Consultar fonte", url)}</article>`
   ).join("");
 }
+
+const initialMarketDate = "2026-11-22";
+function marketQuote(url, initialCents) {
+  return marketPriceRefresh.products[url] ?? {cents: initialCents, date: initialMarketDate};
+}
+function marketDateLabel(date) {
+  return date.split("-").reverse().join("/");
+}
+const refreshNote = document.querySelector("#market-refresh");
+if (marketPriceRefresh.checked) {
+  refreshNote.textContent = `Consulta de ${marketDateLabel(marketPriceRefresh.checked)}: ${marketPriceRefresh.verified} de ${marketPriceRefresh.total} preços online confirmados. Cada valor indica a data em que foi verificado.`;
+}

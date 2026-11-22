@@ -5,10 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>YURI, O TREINADOR QUE TREINA · Mercado</title>
   <link rel="stylesheet" href="style.css?v=fort-rankings">
-  <script src="app.js?v=segmentos" defer></script>
-  <script src="cesta.js?v=precos-publicados" defer></script>
-  <script src="segmentos.js?v=fort-rankings" defer></script>
-<link rel="stylesheet" href="../yuri.css?v=via-lactea">  <script src="frequentes.js?v=fort-810" defer></script>
+  <script src="precos.js" defer></script>
+  <script src="app.js?v=diario8" defer></script>
+  <script src="cesta.js?v=diario8" defer></script>
+  <script src="segmentos.js?v=diario8" defer></script>
+  <link rel="stylesheet" href="../yuri.css?v=via-lactea">
+  <script src="frequentes.js?v=diario8" defer></script>
 </head>
 <body class="yuri-market">
 <main>
@@ -21,9 +23,12 @@
     </nav>
   </header>
 
+  <p class="market-note"><strong>Preços online consultados diariamente às 8h, horário de Brasília.</strong> Quando um preço não é reconfirmado, a tabela mantém o último valor com a data original. Os encartes presenciais indicam a validade de cada oferta.</p>
+  <p id="market-refresh" role="status"></p>
+
   <section aria-labelledby="frequentes">
     <h2 id="frequentes">Ranking das minhas compras frequentes</h2>
-    <p class="market-note"><strong>17 itens · catálogos consultados em 22/11/2026.</strong> Compare o preço por quilo, litro ou unidade e veja o valor da embalagem. Para produtos vendidos a peso, o total depende da quantidade que você levar.</p>
+    <p class="market-note"><strong>17 itens de compra frequente.</strong> Compare o preço por quilo, litro ou unidade e veja o valor da embalagem. Para produtos vendidos a peso, o total depende da quantidade que você levar.</p>
     <div class="table-wrap frequent-prices" tabindex="0" role="region" aria-labelledby="frequentes">
       <table id="frequent-prices"></table>
     </div>
@@ -37,7 +42,7 @@
 
   <section aria-labelledby="cesta-basica">
     <h2 id="cesta-basica">Orçamento mensal por supermercado</h2>
-    <p class="market-note"><strong>Catálogos oficiais consultados em 22/11/2026.</strong> Preços online de Angeloni e Bistek, sujeitos a CEP, estoque e condições no carrinho. Para comprar presencialmente, confira as ofertas da filial abaixo.</p>
+    <p class="market-note"><strong>Preços dos catálogos oficiais.</strong> Preços online de Angeloni e Bistek, sujeitos a CEP, estoque e condições no carrinho. Para comprar presencialmente, confira as ofertas da filial abaixo.</p>
     <p id="quantity-help">A lista começa com uma sugestão para dois adultos. Ajuste o número de embalagens ou de quilos de cada item para o seu mês. Use zero para retirar um produto.</p>
     <button type="button" id="reset-month">Restaurar quantidades sugeridas</button>
     <div class="market-layout">
@@ -54,7 +59,7 @@
     <p class="market-method">Os 20 itens mantêm as mesmas embalagens e pesos. O traço indica preço sem confirmação para a referência exata. O subtotal usa apenas os itens com preço nos dois catálogos. Marcas podem variar. Os valores excluem frete e deslocamento.</p>
   </section>
 
-  <p class="market-method">Bistek e Angeloni usam os catálogos online consultados em 22/11/2026. O Fort Santo Antônio de Lisboa usa os encartes presenciais da loja 810. A comparação entre as três lojas soma apenas os itens com oferta do Fort na validade, na medida indicada e sem desconto de clube. Os subtotais excluem frete e deslocamento.</p>
+  <p class="market-method">Bistek e Angeloni usam os preços datados dos catálogos online. O Fort Santo Antônio de Lisboa usa os encartes presenciais da loja 810. A comparação entre as três lojas soma apenas os itens com oferta do Fort na validade, na medida indicada e sem desconto de clube. Os subtotais excluem frete e deslocamento.</p>
 
   <details class="market-note comparison-note">
     <summary>Adendo sobre embalagens e produtos semelhantes</summary>
