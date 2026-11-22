@@ -4,9 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>YURI, O TREINADOR QUE TREINA · Mercado</title>
-  <link rel="stylesheet" href="style.css?v=compra-mensal">
-  <script src="app.js?v=novembro26" defer></script>
+  <link rel="stylesheet" href="style.css?v=segmentos">
+  <script src="app.js?v=segmentos" defer></script>
   <script src="cesta.js?v=novembro26" defer></script>
+  <script src="segmentos.js" defer></script>
 <link rel="stylesheet" href="../yuri.css?v=via-lactea"></head>
 <body class="yuri-market">
 <main>
@@ -15,7 +16,7 @@
     <h1>Compras do mês</h1>
     <p>Planeje a compra mensal de 20 produtos e compare os preços dos catálogos e consulte as ofertas das lojas físicas de Florianópolis.</p>
     <nav aria-label="Seções do Mercado">
-      <a href="#cesta-basica">Ranking da cesta</a><a href="#encartes">Encartes de loja</a><a href="#acougue">Açougue</a><a href="#limpeza">Limpeza</a><a href="#ofertas">Ofertas</a><a href="#cesta">Minha cotação</a>
+      <a href="#cesta-basica">Ranking da cesta</a><a href="#encartes">Encartes de loja</a><a href="#acougue">Açougue</a><a href="#higiene">Higiene</a><a href="#limpeza">Limpeza</a><a href="#ofertas">Ofertas</a>
     </nav>
   </header>
 
@@ -39,6 +40,23 @@
     <p class="market-method">Os 20 itens mantêm as mesmas embalagens e pesos. O traço indica preço sem confirmação para a referência exata. O subtotal usa apenas os itens com preço nos dois catálogos. Marcas podem variar. Os valores excluem frete e deslocamento.</p>
   </section>
 
+  <p class="market-method">Os rankings abaixo usam preços online dos catálogos oficiais consultados em 22/11/2026. Cada subtotal soma uma embalagem de cada produto listado, sem frete. Consulte as ofertas da filial para comprar presencialmente.</p>
+
+  <section aria-labelledby="acougue">
+    <h2 id="acougue">Ranking do açougue</h2>
+    <div class="market-layout" id="acougue-ranking"></div>
+  </section>
+
+  <section aria-labelledby="higiene">
+    <h2 id="higiene">Ranking de higiene pessoal</h2>
+    <div class="market-layout" id="higiene-ranking"></div>
+  </section>
+
+  <section aria-labelledby="limpeza">
+    <h2 id="limpeza">Ranking de produtos de limpeza</h2>
+    <div class="market-layout" id="limpeza-ranking"></div>
+  </section>
+
   <section aria-labelledby="encartes">
     <h2 id="encartes">Ofertas para comprar na loja</h2>
     <div class="cards" id="physical-offers"></div>
@@ -49,33 +67,12 @@
     <div class="cards" id="stores"></div>
   </section>
 
-  <section aria-labelledby="acougue">
-    <h2 id="acougue">Açougue</h2>
-    <p>Compare cortes semelhantes pelo preço por quilo.</p>
-    <div class="cards" id="meat"></div>
-  </section>
-
-  <section aria-labelledby="limpeza">
-    <h2 id="limpeza">Produtos de limpeza</h2>
-    <p>Compare pelo litro, quilo ou unidade. Para concentrados, confira o rendimento no rótulo.</p>
-    <div class="cards" id="cleaning"></div>
-  </section>
-
   <section aria-labelledby="ofertas">
     <h2 id="ofertas">Ofertas de mercearia e itens básicos</h2>
     <p>Os preços exibidos são uma seleção consultada em <time datetime="2026-11-21">21/11/2026</time>. Confirme validade, CEP, estoque e requisitos de clube, app ou quantidade mínima na fonte.</p>
     <div class="cards" id="deals"></div>
   </section>
 
-  <section aria-labelledby="cesta">
-    <h2 id="cesta">Minha cotação de compra</h2>
-    <p>Ajuste as quantidades e preencha o preço na unidade indicada. Use zero na quantidade para retirar um item. Os dados ficam neste navegador.</p>
-    <p id="tableHint">Deslize a tabela para ver todas as lojas. No frete ou deslocamento, use zero se não houver custo.</p>
-    <div class="table-wrap" tabindex="0" role="region" aria-label="Tabela de comparação da cesta" aria-describedby="tableHint">
-      <table id="basket"></table>
-    </div>
-    <p id="comparison" role="status"></p>
-  </section>
   <noscript>Ative o JavaScript para consultar as ofertas e comparar a cesta.</noscript>
 </main>
 </body>

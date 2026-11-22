@@ -54,3 +54,5 @@ header h1 { margin-bottom: .2em; }
 #reset-month { margin-bottom: 14px; padding: .55em .8em; background: #253744; color: #acebd0; font: inherit; border: 1px solid #647a8b; border-radius: 8px; cursor: pointer; }
 .physical-prices input { width: 4.5em; }
 .physical-prices input:invalid { border-color: #ffa789; }
+.segment-prices table { min-width: 360px; font-variant-numeric: tabular-nums; }
+.segment-prices td { white-space: nowrap; }
