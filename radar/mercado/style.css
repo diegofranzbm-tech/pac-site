@@ -58,3 +58,6 @@ header h1 { margin-bottom: .2em; }
 .segment-prices td { white-space: nowrap; }
 .branch-coverage { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 310px), 1fr)); gap: 12px; }
 .branch-coverage ul { padding-left: 1.25rem; line-height: 1.5; }
+.frequent-prices table { min-width: 570px; font-variant-numeric: tabular-nums; }
+.frequent-prices strong { white-space: nowrap; }
+.frequent-prices th:first-child { width: 30%; }

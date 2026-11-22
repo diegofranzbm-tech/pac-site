@@ -4,11 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>YURI, O TREINADOR QUE TREINA · Mercado</title>
-  <link rel="stylesheet" href="style.css?v=filiais">
+  <link rel="stylesheet" href="style.css?v=frequentes">
   <script src="app.js?v=segmentos" defer></script>
   <script src="cesta.js?v=novembro26" defer></script>
   <script src="segmentos.js?v=preco-unitario" defer></script>
-<link rel="stylesheet" href="../yuri.css?v=via-lactea"></head>
+<link rel="stylesheet" href="../yuri.css?v=via-lactea">  <script src="frequentes.js" defer></script>
+</head>
 <body class="yuri-market">
 <main>
   <header>
@@ -16,9 +17,24 @@
     <h1>Compras do mês</h1>
     <p>Planeje a compra mensal de 20 produtos e compare os preços dos catálogos e consulte as ofertas das lojas físicas de Florianópolis.</p>
     <nav aria-label="Seções do Mercado">
-      <a href="#cesta-basica">Ranking da cesta</a><a href="#encartes">Encartes de loja</a><a href="#acougue">Açougue</a><a href="#higiene">Higiene</a><a href="#limpeza">Limpeza</a><a href="#ofertas">Ofertas</a>
+      <a href="#frequentes">Compras frequentes</a><a href="#cesta-basica">Ranking da cesta</a><a href="#encartes">Encartes de loja</a><a href="#acougue">Açougue</a><a href="#higiene">Higiene</a><a href="#limpeza">Limpeza</a><a href="#ofertas">Ofertas</a>
     </nav>
   </header>
+
+  <section aria-labelledby="frequentes">
+    <h2 id="frequentes">Ranking das minhas compras frequentes</h2>
+    <p class="market-note"><strong>17 itens · catálogos consultados em 22/11/2026.</strong> Compare o preço por quilo, litro ou unidade e veja o valor da embalagem. Para produtos vendidos a peso, o total depende da quantidade que você levar.</p>
+    <p id="frequent-summary"></p>
+    <div class="table-wrap frequent-prices" tabindex="0" role="region" aria-labelledby="frequentes">
+      <table id="frequent-prices"></table>
+    </div>
+    <p class="market-method">O destaque indica a opção de menor preço por medida. Pernil e costela têm diferenças de preparo ou apresentação que pedem uma comparação à parte. Preços online sujeitos a CEP e estoque.</p>
+    <div class="links">
+      <a href="https://www.deliveryfort.com.br/santo-antonio" target="_blank" rel="noopener">Consultar Fort Santo Antônio de Lisboa</a>
+      <a href="https://linkme.bio/imperatriz" target="_blank" rel="noopener">Consultar ofertas do Imperatriz Trindade</a>
+    </div>
+    <p class="market-method">Para compras presenciais, veja os encartes em <a href="#encartes">Ofertas para comprar na loja</a>. A tabela usa os dois catálogos com preços confirmados para esta lista.</p>
+  </section>
 
   <section aria-labelledby="cesta-basica">
     <h2 id="cesta-basica">Orçamento mensal por supermercado</h2>
