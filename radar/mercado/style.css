@@ -61,3 +61,6 @@ header h1 { margin-bottom: .2em; }
 .frequent-prices table { min-width: 570px; font-variant-numeric: tabular-nums; }
 .frequent-prices strong { white-space: nowrap; }
 .frequent-prices th:first-child { width: 30%; }
+.yuri-market .frequent-prices tfoot { background: var(--surface-alt); }
+.frequent-prices tfoot th, .frequent-prices tfoot td { border-top: 2px solid var(--accent); vertical-align: top; }
+.frequent-prices tfoot small { line-height: 1.5; }

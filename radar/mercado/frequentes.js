@@ -20,27 +20,18 @@ const frequentItems = [
 ];
 
 const separatePreparations = new Set(["Pernil suíno", "Costela suína"]);
-const frequentWins = catalogStores.map(() => 0);
-for (const [label, , offers] of frequentItems) {
-  if (separatePreparations.has(label)) continue;
+const frequentRows = frequentItems.map(([label, unit, offers, note]) => {
   const unitPrices = offers.map(([cents, quantity]) => Math.round(cents / quantity));
-  const lowest = Math.min(...unitPrices);
+  const lowest = separatePreparations.has(label) ? null : Math.min(...unitPrices);
   const winners = unitPrices.flatMap((price, index) => price === lowest ? [index] : []);
-  if (winners.length === 1) frequentWins[winners[0]]++;
-}
-document.querySelector("#frequent-summary").textContent = catalogStores
-  .map(({name}, index) => ({name, wins: frequentWins[index]}))
-  .sort((a, b) => b.wins - a.wins)
-  .map(({name, wins}) => `${name}: menor preço em ${wins} ${wins === 1 ? "item" : "itens"}`)
-  .join(" · ");
+  return {label, unit, offers, note, unitPrices, lowest, winners};
+});
 
 document.querySelector("#frequent-prices").innerHTML = `
   <thead><tr><th scope="col">Produto</th>
     ${catalogStores.map(({name}) => `<th scope="col">${name}</th>`).join("")}
   </tr></thead>
-  <tbody>${frequentItems.map(([label, unit, offers, note]) => {
-    const unitPrices = offers.map(([cents, quantity]) => Math.round(cents / quantity));
-    const lowest = separatePreparations.has(label) ? null : Math.min(...unitPrices);
+  <tbody>${frequentRows.map(({label, unit, offers, note, unitPrices, lowest}) => {
     return `<tr>
       <th scope="row">${label}${note ? `<small>${note}</small>` : ""}</th>
       ${offers.map(([cents, quantity, name, url], index) => `
@@ -49,4 +40,12 @@ document.querySelector("#frequent-prices").innerHTML = `
           <small>${external(name, url)} · ${money(cents)}${quantity === 1 && unit === "kg" ? " por 1 kg" : ""}</small>
         </td>`).join("")}
     </tr>`;
-  }).join("")}</tbody>`;
+  }).join("")}</tbody>
+  <tfoot><tr>
+    <th scope="row">Onde vale mais a pena comprar<small>Por menor preço por medida. Pernil e costela têm preparos ou apresentações diferentes.</small></th>
+    ${catalogStores.map(({name}, index) => {
+      const cheaper = frequentRows.filter(({winners}) => winners.length === 1 && winners[0] === index);
+      return `<td><strong>${name} · ${cheaper.length} ${cheaper.length === 1 ? "item" : "itens"}</strong>
+        <small>${cheaper.map(({label}) => label).join(", ") || "Sem itens com menor preço exclusivo."}</small></td>`;
+    }).join("")}
+  </tr></tfoot>`;
