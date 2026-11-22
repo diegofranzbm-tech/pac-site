@@ -1,51 +1,83 @@
 :root {
-  --ink: #38152b;
-  --muted: #70455d;
-  --green: #952557;
-  --line: #eac6d9;
-  --paper: #fff5fa;
-  --pink-soft: #fbe0ef;
-  --pink-pale: #fff0f8;
-  --plum: #42132e;
-  --pink-hero: radial-gradient(ellipse at 92% 112%, #f58cbd 0 10%, #da548f 10.3% 18%, #a33167 18.3% 27%, transparent 27.3%), linear-gradient(115deg, #381127, #73214b);
+  color-scheme: dark;
+  --ink: #f1f3ff;
+  --muted: #bbc5e2;
+  --green: #b9ccff;
+  --line: #39476c;
+  --paper: #080e22;
+  --surface: #131d36;
+  --surface-alt: #1b2848;
+  --accent: #a4baff;
+  --accent-ink: #141d39;
+  --stars: radial-gradient(1px 1px at 20px 24px, #fff 98%, transparent),
+    radial-gradient(1px 1px at 94px 70px, #afc5ff 98%, transparent),
+    radial-gradient(1px 1px at 154px 123px, #e4dcff 98%, transparent),
+    radial-gradient(1px 1px at 45px 100px, #8399e0 98%, transparent);
+  --galaxy: radial-gradient(ellipse at 92% -20%, #524788 0, transparent 48%),
+    radial-gradient(ellipse at 52% 150%, #373969 0, transparent 62%),
+    linear-gradient(120deg, #101832, #19183b 65%, #142747);
 }
 
-.radar-brand, .yuri-travel .hero, .yuri-market main > header {
-  background: var(--pink-hero);
-  color: white;
-}
-.radar-brand { padding-block: clamp(18px, 4vw, 34px); }
-.radar-brand .brand {
-  font: 800 clamp(1.4rem, 4vw, 2.65rem)/1.1 system-ui, sans-serif;
-  letter-spacing: -.055em;
-}
-.radar-brand .brand span { color: #ffb6d9; }
-.radar-tabs { flex-wrap: wrap; }
-.radar-tabs a { background: var(--pink-soft); }
-.pill, .pills span, .mortgage-rank { background: var(--pink-soft); }
-#apartmentsView th, #apartmentsView tr:hover td { background: var(--pink-pale); }
-#apartmentsView .infra { color: var(--muted); }
-
-.yuri-market {
-  color-scheme: light;
-  background: var(--paper);
+body, body.yuri-market {
+  background-color: var(--paper);
+  background-image: var(--stars);
+  background-size: 187px 139px;
   color: var(--ink);
 }
+.radar-brand, .yuri-travel .hero, .yuri-market main > header, .yuri-products .hero {
+  background-color: var(--surface);
+  background-image: var(--stars), var(--galaxy);
+  background-size: 187px 139px, cover;
+  color: var(--ink);
+  border-color: var(--line);
+}
+.radar-brand { padding-block: clamp(18px, 4vw, 34px); border-bottom: 1px solid var(--line); }
+.radar-brand .brand {
+  font: 800 clamp(1.4rem, 4vw, 2.65rem)/1.1 system-ui, sans-serif;
+  letter-spacing: -.05em;
+}
+.radar-brand .brand span { color: #dccdff; }
+.radar-tabs { flex-wrap: wrap; }
+.radar-tabs a, .pill, .pills span, .mortgage-rank, .secondary {
+  background: var(--surface-alt);
+  color: var(--ink);
+}
+.radar-tabs a[aria-current="page"], button, .button, .mortgage-best .mortgage-rank {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+.radar-tabs a { border: 1px solid var(--line); }
+a { color: var(--green); }
+input, select { background: var(--paper); color: var(--ink); border-color: var(--line); }
+
+#apartmentsView .stat, #apartmentsView .tools, #apartmentsView .tablewrap,
+#apartmentsView details, .stats > div, .chart-panel, .method, .coverage, .card {
+  background: var(--surface);
+  border-color: var(--line);
+}
+#apartmentsView th, #apartmentsView tr:hover td, .chart-empty, .chart-initial {
+  background: var(--surface-alt);
+}
+#apartmentsView td, #apartmentsView .mortgage-bank { border-color: var(--line); }
+#apartmentsView .infra { color: var(--muted); }
+#chart svg text { fill: var(--muted); }
+.yuri-products .hero { padding: clamp(16px, 3vw, 36px); border-radius: 22px; }
+.yuri-travel .hero p, .yuri-products .hero p { color: #e2e8ff; }
+
 .yuri-market article, .yuri-market .table-wrap, .yuri-market .market-ranking,
-.yuri-market .market-note { background: white; border-color: var(--line); }
-.yuri-market .market-note { border-left-color: var(--green); }
+.yuri-market .market-note { background: var(--surface); border-color: var(--line); }
+.yuri-market .market-note { border-left-color: var(--accent); }
 .yuri-market strong, .yuri-market a, .yuri-market .place,
 .yuri-market .market-ranking li::marker { color: var(--green); }
-.yuri-market header a, .yuri-market header .place { color: #ffd4e9; }
-.yuri-market header nav a { background: var(--plum); }
+.yuri-market header nav a { background: #202b53; }
 .yuri-market small, .yuri-market .market-method { color: var(--muted); }
 .yuri-market th, .yuri-market td, .yuri-market .market-ranking li { border-color: var(--line); }
 .yuri-market thead, .yuri-market tfoot, .yuri-market .physical-prices th:first-child,
-.yuri-market .physical-prices tbody tr:nth-child(even) { background: var(--pink-pale); }
-.yuri-market .lowest-price, .yuri-market #split-budget { background: var(--pink-soft); }
-.yuri-market input, .yuri-market #reset-month { background: white; color: var(--ink); border-color: #bd779b; }
-.yuri-market input:invalid { border-color: #a62238; }
-.yuri-market :focus-visible, .yuri-travel :focus-visible, .radar-tabs a:focus-visible {
-  outline: 3px solid #c52d76;
+.yuri-market .physical-prices tbody tr:nth-child(even) { background: var(--surface-alt); }
+.yuri-market .lowest-price, .yuri-market #split-budget { background: #2a2854; }
+.yuri-market input, .yuri-market #reset-month { background: var(--paper); color: var(--ink); border-color: #687bad; }
+.yuri-market input:invalid { border-color: #ff9fb1; }
+:focus-visible, .yuri-market :focus-visible, .yuri-travel :focus-visible {
+  outline: 3px solid #bfbbff;
   outline-offset: 3px;
 }
