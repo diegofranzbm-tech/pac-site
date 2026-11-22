@@ -19,31 +19,66 @@ const frequentItems = [
   ["Cenoura", "kg", [[504, 0.6, "Cenoura 600g Aprox. 4 Unid.", "https://www.bistek.com.br/cenoura-600g-3031462/p"], [499, 1, "Cenoura Kg", "https://super.angeloni.com.br/cenoura-kg-164607/p"]], ""],
 ];
 
+const frequentStores = [...catalogStores, {name: "Fort Santo Antônio de Lisboa"}];
+const fortCleaning = branchOffers.limpeza;
+const fortFrequentOffers = {
+  "Sabão em pó para roupas": {
+    offer: [3290, 5.6, "Surf em pó · 5,6 kg", fortCleaning.url],
+    campaign: fortCleaning, alternative: "Outra fragrância · Clube Mais: R$ 29,90 (R$ 5,34/kg)"
+  },
+  "Amaciante concentrado": {
+    offer: [1590, 1, "Amaciante Ypê concentrado · 1 L", fortCleaning.url],
+    campaign: fortCleaning, alternative: "Outra marca e fragrância · confira a dosagem"
+  },
+  "Papel higiênico folha dupla, 30 m": {
+    offer: [1790, 18, "Duetto folha dupla · 18 rolos de 30 m", fortWeekend.url],
+    campaign: fortWeekend
+  },
+  "Sabonete em barra": {
+    offer: [429, 1, "Francis Luxo · 90 g", fortCleaning.url],
+    campaign: fortCleaning, alternative: "Outra marca · Clube Mais: R$ 3,99"
+  },
+  "Esponja multiuso": {
+    offer: [219, 4, "Super Wish · 4 esponjas", fortCleaning.url],
+    campaign: fortCleaning, alternative: "Outra marca"
+  }
+};
+
 const separatePreparations = new Set(["Pernil suíno", "Costela suína"]);
 const frequentRows = frequentItems.map(([label, unit, offers, note]) => {
-  const unitPrices = offers.map(([cents, quantity]) => Math.round(cents / quantity));
-  const lowest = separatePreparations.has(label) ? null : Math.min(...unitPrices);
-  const winners = unitPrices.flatMap((price, index) => price === lowest ? [index] : []);
-  return {label, unit, offers, note, unitPrices, lowest, winners};
+  const fort = fortFrequentOffers[label];
+  const allOffers = [...offers, fort?.offer ?? null];
+  const unitPrices = allOffers.map(offer => offer ? Math.round(offer[0] / offer[1]) : null);
+  const fortComparable = fort && !fort.alternative && todayInFlorianopolis <= fort.campaign.until;
+  const comparable = unitPrices.slice(0, fortComparable ? 3 : 2);
+  const lowest = separatePreparations.has(label) ? null : Math.min(...comparable);
+  const winners = comparable.flatMap((price, index) => price === lowest ? [index] : []);
+  return {label, unit, offers: allOffers, note, unitPrices, winners, fort};
 });
 
 document.querySelector("#frequent-prices").innerHTML = `
   <thead><tr><th scope="col">Produto</th>
-    ${catalogStores.map(({name}) => `<th scope="col">${name}</th>`).join("")}
+    ${frequentStores.map(({name}) => `<th scope="col">${name}</th>`).join("")}
   </tr></thead>
-  <tbody>${frequentRows.map(({label, unit, offers, note, unitPrices, lowest}) => {
-    return `<tr>
-      <th scope="row">${label}${note ? `<small>${note}</small>` : ""}</th>
-      ${offers.map(([cents, quantity, name, url], index) => `
-        <td class="${unitPrices[index] === lowest ? "lowest-price" : ""}">
-          <strong>${money(unitPrices[index])}/${unit}</strong>
-          <small>${external(name, url)} · ${money(cents)}${quantity === 1 && unit === "kg" ? " por 1 kg" : ""}</small>
-        </td>`).join("")}
-    </tr>`;
-  }).join("")}</tbody>
+  <tbody>${frequentRows.map(({label, unit, offers, note, unitPrices, winners, fort}) => `<tr>
+    <th scope="row">${label}${note ? `<small>${note}</small>` : ""}</th>
+    ${offers.map((offer, index) => {
+      if (!offer) return '<td><small>Preço sem confirmação na filial</small></td>';
+      const [cents, quantity, name, url] = offer;
+      const fortDetails = index === 2
+        ? `<small>Encarte · ${fort.campaign.dates}${todayInFlorianopolis > fort.campaign.until ? " · encerrado" : ""}
+          ${fort.alternative ? `<br>Alternativa · ${fort.alternative}` : ""}</small>`
+        : "";
+      return `<td class="${winners.includes(index) ? "lowest-price" : ""}">
+        <strong>${money(unitPrices[index])}/${unit}</strong>
+        <small>${external(name, url)} · ${money(cents)}${quantity === 1 && unit === "kg" ? " por 1 kg" : ""}</small>
+        ${fortDetails}
+      </td>`;
+    }).join("")}
+  </tr>`).join("")}</tbody>
   <tfoot><tr>
     <th scope="row">Onde vale mais a pena comprar<small>Por menor preço por medida. Pernil e costela têm preparos ou apresentações diferentes.</small></th>
-    ${catalogStores.map(({name}, index) => {
+    ${frequentStores.map(({name}, index) => {
       const cheaper = frequentRows.filter(({winners}) => winners.length === 1 && winners[0] === index);
       return `<td><strong>${name} · ${cheaper.length} ${cheaper.length === 1 ? "item" : "itens"}</strong>
         <small>${cheaper.map(({label}) => label).join(", ") || "Sem itens com menor preço exclusivo."}</small></td>`;
