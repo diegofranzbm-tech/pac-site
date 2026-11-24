@@ -1,6 +1,6 @@
 const marketPriceRefresh = {
   "checked": "2026-11-24",
-  "verified": 76,
+  "verified": 74,
   "total": 79,
   "products": {
     "https://super.angeloni.com.br/4077167-oleo-de-soja-coamo-refinado-900ml/p": {
